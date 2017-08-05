@@ -4,9 +4,16 @@ const config =  require("./config/default.js")
 const db = require('./mongodb')
 const bodyParser = require("body-parser")
 const ssesion = require("express-session")
+const routes = require('./routes')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(ssesion(config.session))
+routes(app)
+// app.post('/api/register',(req,res)=>{
+//   res.send({
+//     name:"5555"
+//   })
+// })
 app.listen(config.port,()=>{
   console.log(`Express server is listening port: ${config.port}`);
 })
