@@ -16,13 +16,13 @@ const register = (req,res)=>{
            if(user){
              res.send({status:0,msg:"ok",data:"用户已经存在"})
            }else{
-             let userRegister = new AdminModel({name,password:hash})
-             userRegister.create_time = objectIdToStamp(userRegister._id)//存一个时间戳到数据库
+             let userRegister = new AdminModel({name,password:hash});
+             userRegister.create_time = objectIdToStamp(userRegister._id);//存一个时间戳到数据库
              userRegister.save().then(()=>{res.send({status:1,msg:"ok",data:"注册成功"})})
            }
          })
          .catch((err) => {
-           res.send({status:0,msg:"err",data:err.toString()})
+           res.send({status:-1,msg:"err",data:err.message.toString()})
          })
 }
 module.exports =  register
@@ -33,4 +33,6 @@ module.exports =  register
     3.mongoose默认给每个Scheme分配一个_id
     4.用户名及密码的验证规则全部在前端验证
     5.密码用hash加密和查找用户名是否重负的操作是两个独立的异步操作，so用Promise.all()
+    6.操作数据库成功有两种结果，一个是找到1，一个是没有找到0
+    7.后端发生错误-1
  */
