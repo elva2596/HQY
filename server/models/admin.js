@@ -15,5 +15,5 @@ const userSchema = new Schema({
    */
 })
 // 创建Model(即集合)
-const Admin = mongoose.model("Admin",userSchema);
+const Admin = mongoose.model("Admin",userSchema);//第一个参数是集合的名字(数据库自自动在后面加一个s)
 module.exports = Admin

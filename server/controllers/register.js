@@ -7,22 +7,22 @@ const AdminModel = require("../models/admin")
 const moment = require("moment");
 const objectIdToStamp = require("objectid-to-timestamp")
 const register = (req,res)=>{
+  console.log(res.statusCode);
   let {name,password} = req.body
-  let findPromise = AdminModel.findOne({name:name.toLowerCase()}).exec();
+  let findPromise = AdminModel.findOne({name}).exec();
   let bcryptPrimse = bcrypt.hash(password,10);
   Promise.all([findPromise,bcryptPrimse])
          .then(([user,hash])=>{
            if(user){
-             res.send({status:0,type:"USER_HAS_EXIST",message:"用户已经存在"})
+             res.send({status:0,msg:"ok",data:"用户已经存在"})
            }else{
              let userRegister = new AdminModel({name,password:hash})
              userRegister.create_time = objectIdToStamp(userRegister._id)//存一个时间戳到数据库
-             userRegister.save().then(()=>{res.send({status:1,message:"注册成功"})})
+             userRegister.save().then(()=>{res.send({status:1,msg:"ok",data:"注册成功"})})
            }
          })
          .catch((err) => {
-           console.log(err);//这里使用错误处理中间件，做成错误日志输出
-           res.send({tatus:0,type:"REGISTER_ADMIN_ERROR",message:"注册失败"})
+           res.send({status:0,msg:"err",data:err.toString()})
          })
 }
 module.exports =  register
