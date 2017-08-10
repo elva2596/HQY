@@ -12,7 +12,7 @@ export default new Router({
       component: Hello
     },
     {
-      path:"/admin/register",
+      path:"/register",
       component:Register
     }
   ]
