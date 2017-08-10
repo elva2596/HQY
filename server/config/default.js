@@ -10,15 +10,16 @@ module.exports = {
     url: "mongodb://localhost:27017/hqy",
     // express-session的默认配置
     session: {
-        name: "_session-id"+num,
+        name: "_session-id",
         secret: "hqy sessionId",
         resave: false,
         saveUninitialized: false,
         cookie: {
             httpOnly: true,
             secure: false,
-            maxAge: 7 * 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            path:'/api/admin'
         },
-        store:new MongoStore({url:"mongodb://localhost:27017/userSession"})
+        store:new MongoStore({url:"mongodb://localhost:27017/hqy"})
     }
 };

@@ -1,5 +1,6 @@
 const express = require("express");
 const register = require('../controllers/register');
 const router = express.Router();
-router.post('/register',register);
+const {checkNotLogin}  = require("../middlewares")
+router.post('/admin/register',checkNotLogin,register);
 module.exports = router;

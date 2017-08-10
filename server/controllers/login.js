@@ -6,14 +6,15 @@ const login = (req,res)=>{
             .exec()
             .then(user=>{
               if(user){
-                let {password:hash} = user;
+                let {password:hash,_id} = user;
                 bcrypt.compare(password,hash)
                       .then((result)=>{
                         if(result){
-                            console.log(Object.getOwnPropertyDescriptor(user,"password"))
-                            console.log(user);
-                            // req.session.userInfo = {};
-                            req.session[name] = name
+                          /*
+                            同一个浏览器不能同时登录两个账号，
+                            因为会存在session共享的问题
+                           */
+                            req.session["user_id"] = _id
                             res.send({
                                 status:1,
                                 msg:"ok",

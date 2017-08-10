@@ -1,0 +1,31 @@
+module.exports = {
+  checkNotLogin(req,res,next){
+    /*
+  如果已经登录了，再访问login或者register则重定向到主页
+     */
+    if(req.session.user_id){
+      res.send({
+        status:1,
+        msg:"success",
+        data:"已登录"
+      })
+    }else{
+      next()
+    }
+  },
+
+  /*
+    如果未登录情况下，想方位类似于home主页的需要授权
+   */
+  checkLogin(req,res,next){
+    if(!req.session.user_id){
+      res.send({
+        status:0,
+        msg:"Unauthorized",
+        data:"未登录"
+      })
+    }else{
+      next()
+    }
+  }
+}
