@@ -40,4 +40,11 @@ router.beforeEach((to,from,next)=>{
     }
   }
 })
+/*
+  登录权限控制说明：
+    * requiredAuth
+        true : 判断是否登录，如果没有登录则next({path:"/login"}),否则next()
+        false : 判断是否登录， 如果已经登录，则访问/login or /register的时候 next(false) 终端导航，停留在当前页面
+                              否则next()
+ */
 export default router
