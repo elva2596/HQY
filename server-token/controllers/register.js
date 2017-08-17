@@ -7,7 +7,6 @@ const AdminModel = require("../models/admin")
 const moment = require("moment");
 const objectIdToStamp = require("objectid-to-timestamp")
 const register = (req,res)=>{
-  console.log(res.statusCode);
   let {name,password} = req.body
   let findPromise = AdminModel.findOne({name}).exec();
   let bcryptPrimse = bcrypt.hash(password,10);
