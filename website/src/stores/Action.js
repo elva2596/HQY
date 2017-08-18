@@ -5,5 +5,9 @@ export default {
       let { data:res } = await userLogin(data)
       commit("USER_LOGIN",res.token)
       return res
+  },
+  signOut({commit}){
+    commit("USER_SINGNOUT")
+    return true
   }
 }

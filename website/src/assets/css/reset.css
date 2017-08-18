@@ -32,3 +32,6 @@ body{
 .admin-tip span:hover{
   opacity:0.5
 }
+#app,html,body{
+  height: 100%;
+}
