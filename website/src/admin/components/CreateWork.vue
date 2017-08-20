@@ -32,6 +32,7 @@ export default {
       },
       hadnleSuccess(response, file, fileList){
         console.log(response)
+        // this.dialogImageUrl = `${}`response.bucketHost+'/'+response.key
       }
     }
   }
