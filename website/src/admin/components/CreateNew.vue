@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    work!!!
+CreateNew.vue
   </div>
 </template>
 

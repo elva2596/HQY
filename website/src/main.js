@@ -6,6 +6,25 @@ import router from './router'
 import '@/assets/css/reset.css'
 import {Auth_axios,NoAuth_axios} from "axios"
 import store from './stores'
+import "vue-awesome/icons/fa"
+import "vue-awesome/icons/align-center"
+import "vue-awesome/icons/align-justify"
+import "vue-awesome/icons/align-left"
+import "vue-awesome/icons/align-right"
+import "vue-awesome/icons/reorder"
+import "vue-awesome/icons/archive"
+import "vue-awesome/icons/folder"
+import "vue-awesome/icons/file-image-o"
+import "vue-awesome/icons/list"
+import "vue-awesome/icons/book"
+import "vue-awesome/icons/newspaper-o"
+import "vue-awesome/icons/plus-square-o"
+import "vue-awesome/icons/edit"
+import "vue-awesome/icons/id-card"
+import "vue-awesome/icons/address-card"
+import "vue-awesome/icons/info-circle"
+import "vue-awesome/icons/cog"
+import "vue-awesome/icons/file-text-o"
 import {
  Form,
  FormItem,
@@ -15,12 +34,22 @@ import {
  Menu,
  Submenu,
  MenuItem,
+ MenuItemGroup,
  Row,
  Col,
  Dropdown,
-DropdownMenu,
-DropdownItem,
-MessageBox,
+ DropdownMenu,
+ DropdownItem,
+ MessageBox,
+ RadioButton,
+ Tooltip,
+ Breadcrumb,
+ BreadcrumbItem,
+ DatePicker,
+ Radio,
+ RadioGroup,
+ Upload,
+ Dialog,
 } from 'element-ui'//element-ui按需引入
 Vue.use(Button)
 Vue.use(Form)
@@ -34,6 +63,19 @@ Vue.use(Col)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
+Vue.use(RadioGroup)
+Vue.use(RadioButton)
+Vue.use(MenuItemGroup)
+Vue.use(Tooltip)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
+Vue.use(DatePicker)
+Vue.use(Radio)
+Vue.use(RadioGroup)
+Vue.use(Upload)
+Vue.use(Dialog)
+import Icon from 'vue-awesome/components/Icon'
+Vue.component('icon', Icon)
 Vue.config.productionTip = false
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

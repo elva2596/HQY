@@ -13,6 +13,13 @@ import News from "@/admin/components/News"
 import Publications from "@/admin/components/Publications"
 import Texts from "@/admin/components/Texts"
 import Exhibitions from "@/admin/components/Exhibitions"
+import CreateExhibition from "@/admin/components/CreateExhibition"
+import CreateNew from "@/admin/components/CreateNew"
+import createPublication from "@/admin/components/createPublication"
+import CreateText from "@/admin/components/CreateText"
+import CreateWork from "@/admin/components/CreateWork"
+import Explain from "@/admin/components/Explain"
+import Set from "@/admin/components/Set"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -22,15 +29,55 @@ const router = new Router({
     {
       path: "/admin",
       component: Dashboard,
+      name:"数据管理",
+      icon:"folder",
       children:[
-        { path: '', name: "defalut", component: Works, meta: { requiresAuth: true }, hidden:true},
-        { path: 'works', name: "作品", component: Works, meta: { requiresAuth: true } },
-        { path: 'exhibitions', name: "展览", component: Exhibitions, meta: { requiresAuth: true } },
-        { path: 'publications', name: "出版物", component: Publications, meta: { requiresAuth: true } },
-        { path: 'news', name: "新闻", component: News, meta: { requiresAuth: true } },
-        { path: 'biography', name: "简历", component: Biography, meta: { requiresAuth: true } },
-        { path: 'texts', name: "文本", component: Texts, meta: { requiresAuth: true } },
-        { path: 'Ccontact', name: "联系", component: Contact, meta: { requiresAuth: true } }
+        { path: 'works', name: "作品列表", component: Works, icon:'file-image-o', meta: { requiresAuth: true } },
+        { path: 'exhibitions', name: "展览列表", component: Exhibitions, icon:'list', meta: { requiresAuth: true } },
+        { path: 'publications', name: "出版物列表", component: Publications, icon:'book', meta: { requiresAuth: true } },
+        { path: 'news', name: "新闻列表", component: News, icon:'newspaper-o', meta: { requiresAuth: true } },
+        { path: 'texts', name: "文本列表", component: Texts, icon:'file-text-o', meta: { requiresAuth: true } }
+      ]
+    },
+    {
+      path:"/admin",
+      component:Dashboard,
+      name:"添加数据",
+      icon:'plus-square-o',
+      children:[
+        { path:"work", name:"添加作品", component:CreateWork, icon:'file-image-o', meta: { requiresAuth: true } },
+        { path:"exhibition", name:"添加展览", component:CreateExhibition, icon:'list', meta: { requiresAuth: true } },
+        { path:"publiation", name:"添加出版物", component:createPublication, icon:'book', meta: { requiresAuth: true } },
+        { path:"new", name:"添加新闻", component:CreateNew, icon:'newspaper-o', meta: { requiresAuth: true } },
+        { path:"text", name:"添加文本", component:CreateText, icon:'file-text-o', meta: { requiresAuth: true } }
+      ]
+    },
+    {
+      path:"/admin",
+      component:Dashboard,
+      name:"编辑",
+      icon:'edit',
+      children:[
+        { path:"biography", name:"简历", component:Biography, icon:'id-card', meta: { requiresAuth: true } },
+        { path:"contact", name:"联系", component:Contact,  icon:'address-card', meta: { requiresAuth: true } }
+      ]
+    },
+    {
+      path:"/admin",
+      component:Dashboard,
+      leaf:true,//只有一个子节点
+      icon:'cog',
+      children:[
+        { path:"set", name:"设置", component:Set,  meta: { requiresAuth: true } }
+      ]
+    },
+    {
+      path:"/admin",
+      component:Dashboard,
+      icon:'info-circle',
+      leaf:true,//只有一个子节点
+      children:[
+        { path:"explain", name:"说明", component:Explain,   meta: { requiresAuth: true } }
       ]
     }
   ]

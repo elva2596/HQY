@@ -18,7 +18,8 @@ function isLogin(){
 }
 const store = new Vuex.Store({
   state:{
-    token:isLogin()
+    token:isLogin(),
+    isCollapse:false
   },
   mutations,
   actions

@@ -4,4 +4,5 @@ module.exports = (app)=>{
   app.use("/api",require("./loginout"));
   app.use("/api",require("./home"));
   app.use("/api",require("./getUserByName"));
+  app.use("/api",require("./qiniu"));
 };
