@@ -2,7 +2,7 @@ const qiniu  = require('qiniu');
 const path = require("path")
 const fs = require('fs');
 const config = new qiniu.conf.Config();
-config.zone = qiniu.zone.Zone_z1;
+config.zone = qiniu.zone.Zone_z0;
 const formUploader = new qiniu.form_up.FormUploader(config);
 const putExtra = new qiniu.form_up.PutExtra();
 const bucketHost = process.env.BUCKET_HOST
@@ -28,6 +28,7 @@ const upload = (baseDir,filePath,fileName)=>{
             if(!err) {
               // url存到数据库中
               const imgUrl = `${bucketHost}/${ret.key}`
+              console.log(imgUrl)
               fs.unlink(repath)
               resolve(imgUrl)
             } else {

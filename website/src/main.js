@@ -25,6 +25,7 @@ import "vue-awesome/icons/address-card"
 import "vue-awesome/icons/info-circle"
 import "vue-awesome/icons/cog"
 import "vue-awesome/icons/file-text-o"
+import VueQuillEditor from "vue-quill-editor"
 import {
  Form,
  FormItem,
@@ -50,7 +51,12 @@ import {
  RadioGroup,
  Upload,
  Dialog,
+ InputNumber,
+ Table,
+ TableColumn,
 } from 'element-ui'//element-ui按需引入
+import VueLazyload from "vue-lazyload"
+Vue.use(VueLazyload)
 Vue.use(Button)
 Vue.use(Form)
 Vue.use(FormItem)
@@ -74,6 +80,10 @@ Vue.use(Radio)
 Vue.use(RadioGroup)
 Vue.use(Upload)
 Vue.use(Dialog)
+Vue.use(InputNumber)
+Vue.use(VueQuillEditor)
+Vue.use(Table)
+Vue.use(TableColumn)
 import Icon from 'vue-awesome/components/Icon'
 Vue.component('icon', Icon)
 Vue.config.productionTip = false
@@ -81,7 +91,6 @@ Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$http = Auth_axios
 Vue.prototype.$ajax = NoAuth_axios
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

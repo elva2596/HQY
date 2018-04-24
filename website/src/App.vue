@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 export default {
   name: 'app'
 }
@@ -17,5 +18,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100%;
 }
 </style>

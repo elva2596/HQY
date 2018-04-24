@@ -1,34 +1,42 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+// import Hello from '@/components/Hello'
 import Register from "@/admin/views/Register"
 import Login from "@/admin/views/Login"
-import Dashboard from "@/admin/views/Dashboard"
-import Article from '@/admin/views/Article'
+import Home from "@/admin/views/Home"
 import store from '@/stores'
-import Works from "@/admin/components/Works"
+import Works from "@/admin/views/Works"
 import Biography from "@/admin/components/Biography"
-import Contact from "@/admin/components/Contact"
-import News from "@/admin/components/News"
-import Publications from "@/admin/components/Publications"
-import Texts from "@/admin/components/Texts"
-import Exhibitions from "@/admin/components/Exhibitions"
-import CreateExhibition from "@/admin/components/CreateExhibition"
-import CreateNew from "@/admin/components/CreateNew"
-import createPublication from "@/admin/components/createPublication"
-import CreateText from "@/admin/components/CreateText"
-import CreateWork from "@/admin/components/CreateWork"
+import News from "@/admin/views/News"
+import Publications from "@/admin/views/Publications"
+import Texts from "@/admin/views/Texts"
+import Exhibitions from "@/admin/views/Exhibitions"
+import CreateExhibition from "@/admin/views/CreateExhibition"
+import CreateNew from "@/admin/views/CreateNew"
+import createPublication from "@/admin/views/CreatePub"
+import CreateText from "@/admin/views/CreateText"
+import CreateWork from "@/admin/views/CreateWork"
 import Explain from "@/admin/components/Explain"
 import Set from "@/admin/components/Set"
+import Contact from "@/admin/views/Contact"
+import f_Contact from "@/front/views/Contact"
+import About from "@/front/views/About"
+import Publication from "@/front/views/Publication"
+import f_Home from "@/front/views/Home"
+import Text from "@/front/views/Text"
 Vue.use(Router)
 const router = new Router({
   routes: [
-    { path: '/', name: 'Hello', component: Hello, hidden:true},
+    { path: '/', component: f_Home, hidden:true},
+    {path:"/contact",component:f_Contact,hidden:true},
+    {path:"/about",component:About,hidden:true},
+    {path:"/publication",component:Publication,hidden:true},
     { path: "/register", name:"Register", component:Register, hidden:true },
     { path: "/login", name:"login", component:Login, hidden:true },
+    { path: "/texts",name:"text",component:Text,hidden:true },
     {
       path: "/admin",
-      component: Dashboard,
+      component: Home,
       name:"数据管理",
       icon:"folder",
       children:[
@@ -41,7 +49,7 @@ const router = new Router({
     },
     {
       path:"/admin",
-      component:Dashboard,
+      component:Home,
       name:"添加数据",
       icon:'plus-square-o',
       children:[
@@ -54,7 +62,7 @@ const router = new Router({
     },
     {
       path:"/admin",
-      component:Dashboard,
+      component:Home,
       name:"编辑",
       icon:'edit',
       children:[
@@ -64,7 +72,7 @@ const router = new Router({
     },
     {
       path:"/admin",
-      component:Dashboard,
+      component:Home,
       leaf:true,//只有一个子节点
       icon:'cog',
       children:[
@@ -73,7 +81,7 @@ const router = new Router({
     },
     {
       path:"/admin",
-      component:Dashboard,
+      component:Home,
       icon:'info-circle',
       leaf:true,//只有一个子节点
       children:[

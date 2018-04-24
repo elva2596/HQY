@@ -94,5 +94,8 @@ export default {
   /*背景以后要改*/
   border-radius: 5px;
 }
-
+h3{
+  margin:20px 0;
+  font-weight: 700;
+}
 </style>

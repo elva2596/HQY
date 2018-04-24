@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  // Jsonp回调
+ function jsonCallback(data) {
+     console.log(data.msg);
+     document.body.removeChild(document.body.lastElementChild)
+ }
+
+ //添加<script>标签的方法
+ function addScriptTag(src) {
+     var script = document.createElement('script');
+     script.setAttribute("type", "text/javascript");
+     script.src = src;
+     document.body.appendChild(script);
+ }
+
+ // 向后台发起请求（链接是胡乱写的）
+ addScriptTag('http://10.205.22.79:8089/api/admin/home?callback=jsonCallback')
+  </script>
+</body>
+</html>
