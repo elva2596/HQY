@@ -132,6 +132,8 @@ export default {
   .slide-container .item4{
     background-image:url("../../../static/images/bgh4.jpg");
   }
-  // git测试的dev分支
+  /**
+   * // git测试的dev分支...
+   */
 }
 </style>
