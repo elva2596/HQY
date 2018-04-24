@@ -132,5 +132,6 @@ export default {
   .slide-container .item4{
     background-image:url("../../../static/images/bgh4.jpg");
   }
+  // git测试
 }
 </style>
