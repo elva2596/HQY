@@ -1,11 +1,13 @@
 <template lang="html">
   <div class="container">
+    <div class="filter">
+    </div>
     <div class="nav">
+
       <!--  中英文切换-->
       <div class="toggle" @click="toggle">
         {{toggleButton}}
       </div>
-
       <!-- <header>
         <router-link to="/">{{author}}</router-link>
       </header> -->
@@ -13,6 +15,7 @@
       <div class="button hamburger" :class="{active:isShow}" @click="isHidden">
         <span class="icon"></span>
       </div>
+
       <!-- 满屏导航 -->
       <transition name="list">
         <ul class="navBar" v-show="isShow">
@@ -131,16 +134,11 @@
     justify-content:space-between;
     padding:1rem  2rem ;
     color:#818181;
-
+    /* background: rgba(0,0,0,0.1); */
+    /* -webkit-filter: blur(1px) */
   }
   header a {
     color:#818181;
-  }
-  header,
-  .button,
-  .toggle{
-    /* line-height: 4.8rem; */
-
   }
   .button,
   .toggle{
@@ -167,6 +165,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    z-index:999;
   }
   /**/
   .list-enter-active, .list-leave-active {
@@ -175,5 +174,20 @@
   .list-enter, .list-leave-to{
     opacity: 0;
     transform: translateX(50%);
+  }
+  .container{
+    width: 100%;
+  }
+  .filter{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    width: 100%;
+    /* background: red; */
+    height: 4.8rem;
+        /* background: rgba(0,0,0,0.1);
+    -webkit-filter: blur(1px) */
+    /* z-index:999; */
   }
 </style>

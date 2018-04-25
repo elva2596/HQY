@@ -23,7 +23,8 @@ import f_Contact from "@/front/views/Contact"
 import About from "@/front/views/About"
 import Publication from "@/front/views/Publication"
 import f_Home from "@/front/views/Home"
-import Text from "@/front/views/Text"
+import f_Texts from "@/front/views/Texts"
+import f_Text from "@/front/views/Text"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -33,7 +34,8 @@ const router = new Router({
     {path:"/publication",component:Publication,hidden:true},
     { path: "/register", name:"Register", component:Register, hidden:true },
     { path: "/login", name:"login", component:Login, hidden:true },
-    { path: "/texts",name:"text",component:Text,hidden:true },
+    { path: "/text",name:"text",component:f_Texts,hidden:true },
+    { path: "/text/:id",name:"page",component:f_Text,hidden:true },
     {
       path: "/admin",
       component: Home,

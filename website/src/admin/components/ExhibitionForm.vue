@@ -68,11 +68,14 @@ export default {
   },
   methods: {
     hadnleCoverSuccess(response,file,fileList){
-      this.exhInfo.coverUrl = response.data
+      this.$store.commit("UPDATE_EXH_COVER",{
+        url:response.data
+      })
+      // this.exhInfo.coverUrl = response.data
     }
   },
   created(){
-  
+
   }
 
   }

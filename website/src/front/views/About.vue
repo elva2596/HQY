@@ -34,11 +34,9 @@ export default {
     },
     ...mapState(["isEn"])
   },
-  created(){
-    getBio().then(({data:{data}})=>{
-      this.content_en = data[0].content_en
-      this.content_cn = data[0].content_cn
-    })
+  async created(){
+    this.initialTextsArr = await getBio()
+    console.log(this.initialTextsArr)
   }
 }
 </script>

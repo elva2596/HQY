@@ -6,7 +6,7 @@
         <el-table-column type="index"  ></el-table-column>
         <el-table-column label="文本标题" prop="tittle_cn" align="center"></el-table-column>
         <el-table-column label="操作" align="center">
-          <template scope="scope">
+          <template slot-scope="scope">
              <el-button size="small" @click="edit(scope.$index,scope.row)">编辑</el-button>
              <el-button size="small" type="primary" @click="preview(scope.$index,scope.row)">查看</el-button>
              <el-button size="small" type="danger" @click="remove(scope.$index,scope.row)">删除</el-button>

@@ -69,7 +69,9 @@ export default {
   },
   methods: {
     hadnleCoverSuccess(response,file,fileList){
-      this.newsInfo.coverUrl = response.data
+      this.$store.commit("UPDATE_NEWS_COVER",{
+        url:response.data
+      })
     }
   }
 

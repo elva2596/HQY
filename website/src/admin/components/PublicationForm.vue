@@ -79,7 +79,9 @@ export default {
   },
   methods: {
     hadnleCoverSuccess(response,file,fileList){
-      this.pubInfo.coverUrl = response.data
+      this.$store.commit("UPDATE_PUB_COVER",{
+        url:response.data
+      })
     }
   }
 

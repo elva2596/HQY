@@ -28,7 +28,12 @@ import {
   DELETE_TEXT,
   UPDATE_TEXT,
   HIDDEN,
-  ISLOCAL
+  ISLOCAL,
+  UPDATE_DETAIL_IMG,
+  UPDATE_DETAILR_COVER,
+  UPDATE_EXH_COVER,
+  UPDATE_PUB_COVER,
+  UPDATE_NEWS_COVER
 } from "./Mutations-Type"
 export default {
   [USER_LOGIN](state,token){
@@ -123,5 +128,29 @@ export default {
   [ISLOCAL](state){
     console.log('111')
     state.isEn = !state.isEn
+  },
+  [UPDATE_DETAIL_IMG](state,payload){
+    const {index,url} = payload
+    state.workInfo.works[index].imageUrl = url
+  },
+  [UPDATE_DETAILR_COVER](state,payload){
+    const {workInfo} = state
+    const {url} = payload
+    state.workInfo.coverUrl = url
+  },
+  [UPDATE_EXH_COVER](state,payload){
+    const {url} = payload
+    const {exhInfo} = state
+    exhInfo.coverUrl = url
+  },
+  [UPDATE_PUB_COVER](state,payload){
+    const {url} = payload
+    const {pubInfo} = state
+    pubInfo.coverUrl = url
+  },
+  [UPDATE_NEWS_COVER](state,payload){
+    const {url} = payload
+    const {newsInfo} = state
+    newsInfo.coverUrl =url
   }
 }

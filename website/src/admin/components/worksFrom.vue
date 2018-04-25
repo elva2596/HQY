@@ -23,7 +23,7 @@
             :action="actionUrl"
             list-type="picture"
             :show-file-list="false"
-            :on-success="hadnleCoverSuccess"
+            :on-success="handleCoverSuccess"
             class="avatar-uploader">
             <img v-if="workInfo.coverUrl" :src="workInfo.coverUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -46,7 +46,7 @@
               :action="actionUrl"
               list-type="picture"
               :show-file-list="false"
-              :on-success="hadnleSuccess"
+              :on-success="handleSuccess"
               class="avatar-uploader"
               :objectBind="index">
               <img v-if="item.imageUrl" :src="item.imageUrl" class="avatar">
@@ -102,13 +102,29 @@ export default {
       ...mapState(["actionUrl","workInfo","rules","headRule"])
     },
     methods: {
-      hadnleSuccess(response, file, fileList,objectBind){
-        this.workInfo.works[objectBind].imageUrl = response.data
-        // this.workInfo.works[objectBind].uploadUrl = response.data
+      handleSuccess(response, file, fileList,objectBind){
+        /**
+         * [修改stor中的的wordkInfo.works数组中的对象的imageUrl属性]
+         * @type {[type]}
+         * TODO:
+         *  使用mutation更改store中的状态
+         */
+        this.$store.commit(
+          "UPDATE_DETAIL_IMG",
+          {
+            index:objectBind,
+            url: response.data
+          })
       },
-      hadnleCoverSuccess(response,file,fileList){
-        this.workInfo.coverUrl = response.data
+      handleCoverSuccess(response,file,fileList){
+        this.$store.commit(
+          "UPDATE_DETAILR_COVER",
+          {url: response.data}
+        )
       }
+    },
+    mounted(){
+      console.log(this.$store.commit)
     }
   }
 </script>

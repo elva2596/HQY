@@ -1,3 +1,4 @@
+
 export default {
   changeNumber(val){
     switch(val){
@@ -17,9 +18,7 @@ export default {
         return "五"
     }
   },
-  timeToStampString(time){
-    return Date.parse(time)
-  },
+
   /**
    * [判断是否是一定断设备]
    * @param  {[type]}  userAgent [description]
