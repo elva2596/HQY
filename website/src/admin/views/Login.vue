@@ -94,8 +94,10 @@ export default {
   /*背景以后要改*/
   border-radius: 5px;
 }
-h3{
-  margin:20px 0;
+.login_form h3{
+  font-size: 18px;
+  margin-bottom:2rem;
+  margin-top: 2rem;
   font-weight: 700;
 }
 </style>

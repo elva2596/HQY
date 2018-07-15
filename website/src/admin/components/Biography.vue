@@ -16,6 +16,12 @@
           v-model="bioIfo.content_en">
       </quill-editor>
     </div>
+    <div class="bio-download">
+      <UploadPdf
+        :infoFileLists="bioIfo.fileList"
+        :actionUrl="actionUrl"
+        ></UploadPdf>
+    </div>
     <div class="btn">
       <el-button type="primary" @click="submit" :loading="loading">立即提交</el-button>
     </div>
@@ -24,6 +30,8 @@
 
 <script>
 import {getBio,updateBio,createBio} from "@/api"
+import UploadPdf from "./UploadPdf"
+import {mapState} from 'vuex'
 export default {
   data(){
     return {
@@ -31,9 +39,13 @@ export default {
       isNull:true,
       bioIfo:{
         content_cn:"",
-        content_en:""
+        content_en:"",
+        fileList:[{}]
       }
     }
+  },
+  computed:{
+    ...mapState(["actionUrl"])
   },
   methods:{
     submit(){
@@ -69,11 +81,13 @@ export default {
   created(){
     getBio().then(({data})=>{
       if(data.data.length>0){
-        console.log(data)
         this.bioIfo = data.data[0];
         this.isNull = false
       }
     })
+  },
+  components:{
+    UploadPdf
   }
 }
 </script>
@@ -100,5 +114,11 @@ export default {
 .btn{
   margin-top: 100px;
   margin-bottom: 10px;
+}
+.bio-download{
+  margin-top:130px;
+  border-top: 1px solid silver;
+  border-bottom:1px solid silver;
+  padding-bottom: 20px;
 }
 </style>

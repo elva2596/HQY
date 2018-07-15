@@ -1,9 +1,8 @@
 <template lang="html">
   <div class="container">
     <el-table
-        :data="tableData"
+        :data="textsLists"
          border>
-        <el-table-column type="index"  ></el-table-column>
         <el-table-column label="文本标题" prop="tittle_cn" align="center"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -13,7 +12,7 @@
            </template>
         </el-table-column>
     </el-table>
-    <el-dialog :visible.sync="visible"  :title="title" :size="size">
+    <el-dialog :visible.sync="visible"  :tittle="tittle" :size="size">
       <Text-form ref="updateExh">
         <el-row class="btns" slot="btns">
           <el-button type="primary"  @click="update" :disabled="disabled">立即更新</el-button>
@@ -34,69 +33,84 @@ export default {
   },
   data(){
     return {
-      tableData:[],
       isShow:true,
-      loading:false,
       disabled:false,
       visible:false,
-      type:'',
       size:'',
-      title:'',
+      tittle:'',
+      curIndex:''
     }
   },
   methods:{
     edit(index,row){
       this.visible=true
       this.size= "full"
+      this.curIndex = index
       this.$store.dispatch("editOneText",row._id)
-      console.log(index,row)
     },
     preview(index,row){
-      console.log(index,row)
+      this.$router.push({path:`/text/${row._id}`})
     },
     remove(index,row){
       this.$confirm('此操作将永久删除该作品, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        deleteText(row._id).then(re=>{
-            this.tableData.splice(index,1)
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
-            console.log(re)
+      })
+      .then(() => {
+        this.$store
+            .dispatch("deleteText",{id:row._id,index})
+            .then(()=>{
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
             })
-        }).catch(() => {
-        });
+            .catch(err=>{
+              this.$message({
+                type: 'error',
+                message: '删除失败!'
+              });
+            })
+      })
+      .catch((err) => {
+        console.log(err)
+      });
     },
     update(){
-          this.disabled = true
-          this.$store.dispatch("updateOneText",this.textInfo)
-                      .then(()=>{
-                        this.$message({
-                          message:"保存成功",
-                          type: 'success',
-                          onClose:()=>{
-                            this.visible = false
-                            this.disabled = false
-                          }
-                        })
-                      })
+      this.disabled = true
+      console.log(this.textInfo)
+      this.$store
+          .dispatch("updateOneText",{textInfo:this.textInfo,index:this.curIndex})
+          .then(()=>{
+            this.$message({
+              message:"保存成功",
+              type: 'success',
+              onClose:()=>{
+                this.visible = false
+                this.disabled = false
+              }
+            })
+          })
+          .catch((err)=>{
+            this.$message({
+              message:"保存失败",
+              type: 'error',
+              onClose:()=>{
+                this.disabled = false
+              }
+            })
+          })
     },
     cancel(){
       this.visible = false
     },
   },
   created(){
-    getTexts().then(({data})=>{
-      console.log(data.data)
-      this.tableData = data.data
-    })
+    this.$store.dispatch("getTexts")
   },
   computed:{
-    ...mapState(["textInfo"])
+    ...mapState(["textInfo","textsLists"])
   }
 }
 </script>

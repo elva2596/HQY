@@ -10,14 +10,24 @@
         <el-form-item label="英文标题" prop="title_en">
           <el-input v-model="workInfo.title_en"></el-input>
         </el-form-item>
-        <el-form-item label="创作时间" prop="create_time">
-          <el-date-picker
-            type="month"
-            placeholder="创作时间"
-            :editable="false"
-            v-model="workInfo.create_time">
-          </el-date-picker>
+        <!-- <el-form-item label="中文创作时间" prop="create_time_cn">
+          <el-input v-model="workInfo.create_time_cn"></el-input>
         </el-form-item>
+        <el-form-item label="英文创作时间" prop="create_time_en">
+          <el-input v-model="workInfo.create_time_en"></el-input>
+        </el-form-item>
+        <el-form-item label="中文材质" prop="mat_cn">
+          <el-input v-model="workInfo.mat_cn"></el-input>
+        </el-form-item>
+        <el-form-item label="英文材质" prop="mat_en">
+          <el-input v-model="workInfo.mat_en"></el-input>
+        </el-form-item>
+        <el-form-item label="中文尺寸" prop="size_cn">
+          <el-input v-model="workInfo.size_cn"></el-input>
+        </el-form-item>
+        <el-form-item label="英文尺寸" prop="size_en">
+          <el-input v-model="workInfo.size_en"></el-input>
+        </el-form-item> -->
         <el-form-item label="上传封面" required>
           <el-upload
             :action="actionUrl"
@@ -35,12 +45,6 @@
       <el-row class="form-wrap">
         <h3>添加作品详情{{item.count}}</h3>
         <el-form :ref="'form'+index" label-width="140px" class="work-form" :model="item" :rules="rules[index]">
-          <el-form-item label="中文名称" prop="name_cn">
-            <el-input v-model="item.name_cn"></el-input>
-          </el-form-item>
-          <el-form-item label="英文名称" prop="name_en">
-            <el-input v-model="item.name_en"></el-input>
-          </el-form-item>
           <el-form-item label="上传详情作品" required>
             <el-upload
               :action="actionUrl"
@@ -53,31 +57,24 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="尺寸" >
-            <el-col :span="4" class="text-center">
-              <el-form-item >
-                <el-input v-model="item.length" placeholder="长cm"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2" class="text-center">X</el-col>
-            <el-col :span="4" class="text-center">
-              <el-form-item >
-                <el-input  v-model="item.width" placeholder="宽cm"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2" class="text-center">X</el-col>
-            <el-col :span="4" class="text-center">
-              <el-form-item>
-                <el-input  placeholder="高cm" v-model="item.height"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="中文描述">
-            <el-input type="textarea" v-model="item.desc_cn"></el-input>
-          </el-form-item>
-          <el-form-item label="英文描述">
-            <el-input type="textarea" v-model="item.desc_en"></el-input>
-          </el-form-item>
+            <div class="edit_container">
+              <h4 class="title">作品详情描述中文</h4>
+              <quill-editor
+                  class="editer"
+                  v-model="item.desc_cn"
+                  ref="editor_cn"
+                  >
+              </quill-editor>
+            </div>
+            <div class="edit_container">
+              <h4 class="title">作品详情描述英文</h4>
+              <quill-editor
+                  class="editer"
+                  v-model="item.desc_en"
+                  ref="editor_cn"
+                  >
+              </quill-editor>
+            </div>
         </el-form>
       </el-row>
     </template>
@@ -104,7 +101,7 @@ export default {
     methods: {
       handleSuccess(response, file, fileList,objectBind){
         /**
-         * [修改stor中的的wordkInfo.works数组中的对象的imageUrl属性]
+         * [修改store中的的wordkInfo.works数组中的对象的imageUrl属性]
          * @type {[type]}
          * TODO:
          *  使用mutation更改store中的状态
@@ -122,9 +119,6 @@ export default {
           {url: response.data}
         )
       }
-    },
-    mounted(){
-      console.log(this.$store.commit)
     }
   }
 </script>
@@ -178,6 +172,19 @@ h3{
   font-width: 18px;
 }
 .text-center{
+  text-align: center;
+}
+.edit_container{
+  padding: 40px 0;
+  margin-bottom: 40px;
+  border:1px solid silver !important;
+  border-radius: 5px;
+}
+.editer{
+  min-height: 300px;
+  margin-bottom: 4px;
+}
+h4{
   text-align: center;
 }
 </style>

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="container">
-    <HeadNav class="Homenav"></HeadNav>
+    <!-- <HeadNav class="Homenav"></HeadNav> -->
     <swiper :options="swiperOption" class="slide-container">
       <!-- <swiper-slide class="item item1"></swiper-slide> -->
       <swiper-slide class="item item2" :class="bg"></swiper-slide>
@@ -25,6 +25,7 @@ export default {
          spaceBetween: 30,
          centeredSlides: true,
          effect: 'fade',
+         loop:true,
          centeredSlides: true,
          swipeHandler:"null",//
          autoplay: {
@@ -54,6 +55,9 @@ export default {
 </script >
 
 <style lang="css" scoped>
+.head{
+  background:red;
+}
   .container{
     // background:red;
     position:fixed;
@@ -77,10 +81,8 @@ export default {
     // background:pink;
     background-position:center;
     background-size:cover;
-  }
-  .Homenav{
-    z-index:999;
-     background-color:transparent import;
+     filter: brightness(0.8)
+
   }
   /**
    * [属于第一种加载背景图的方法]

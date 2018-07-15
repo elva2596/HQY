@@ -1,6 +1,7 @@
 import axios from "axios";
 const Auth_axios = axios.create();
 const NoAuth_axios = axios.create();
+const url = "http://127.0.0.1:8089"
 const reg = (data)=>{ return NoAuth_axios.post("/api/register",data) }
 const userLogin = (data)=>{ return NoAuth_axios.post("/api/login",data) }
 const getUser = (data)=>{ return NoAuth_axios.get("/api/getUser",{ params:data }) }
@@ -8,6 +9,7 @@ const createWork = (data)=>{ return Auth_axios.post("/api/work",data) }
 const getWorks = ()=>{ return Auth_axios.get("/api/work") }
 const deleteWork = (data)=>{ return Auth_axios.delete("/api/work/",{ params:{id:data} })}
 const editWork = (id)=>{ return Auth_axios.get(`/api/work/${id}`)}
+const getOneWork = (id)=>{ return Auth_axios.get(`/api/work/${id}`)}
 const editExh = (id)=>{ return Auth_axios.get(`/api/exhibition/${id}`)}
 const editPub = (id)=>{ return Auth_axios.get(`/api/publication/${id}`)}
 const editText = (id)=>{ return Auth_axios.get(`/api/text/${id}`)}
@@ -29,6 +31,7 @@ const createText = (data)=>{ return Auth_axios.post("/api/text",data) }
 const getTexts = ()=>{ return Auth_axios.get("/api/texts") }
 const deleteText = (data)=>{ return Auth_axios.delete("/api/text",{ params:{id:data}}) }
 const updateText = (data)=>{ return Auth_axios.put("/api/text",data) }
+const getText = (id)=>{return NoAuth_axios.get(`/api/text/${id}`) }
 const getBio = ()=>{ return Auth_axios.get("/api/biograhpy") }
 const createBio = (data)=>{ return Auth_axios.post("/api/biograhpy",data) }
 const updateBio = (data)=>{ return Auth_axios.put("/api/biograhpy",data) }
@@ -71,5 +74,7 @@ export {
   updateBio,
   getContact,
   createContact,
-  updateContact
+  updateContact,
+  getText,
+  getOneWork
 }

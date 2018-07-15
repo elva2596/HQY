@@ -6,7 +6,6 @@
         <div v-if="item.visible" class="dialog">
           <div class="btnGroup">
             <span class="btn" @click="trigger('edit',item,index)">编辑</span>
-            <span class="btn" @click="trigger('preview',item,index)">查看</span>
             <span class="btn" @click="trigger('delete',item,index)">删除</span>
           </div>
         </div>
@@ -15,7 +14,6 @@
     <el-dialog :visible.sync="visible"  :title="title" :size="size">
       <works-form ref="worksFrom">
         <el-row class="btns" slot="btns">
-          <!-- <el-button type="primary" v-if="isShow" @click="submit"  :loading="loading">立即更新</el-button> -->
           <el-button type="primary" v-if="isShow" @click="update" :disabled="disabled">立即更新</el-button>
           <el-button @click="add" type="success" icon="plus" :disabled="disabled">新增</el-button>
           <el-button type="danger" icon="delete" v-if="isDelete" @click="remove" :disabled="disabled">删除</el-button>
@@ -28,7 +26,6 @@
 </template>
 
 <script>
-import {getWorks,deleteWork} from "@/api"
 import {mapActions,mapState} from "vuex"
 import utils from "@/utils"
 import worksFrom from "@/admin/components/worksFrom.vue"
@@ -114,9 +111,6 @@ export default {
           name_en:"",
           desc_cn:"",
           desc_en:"",
-          width:"",
-          length:"",
-          height:"",
           imageUrl:'',//最后过滤掉
           count:""//最后过滤掉
         },
@@ -136,6 +130,7 @@ export default {
           // 显示编辑的弹出框
           break;
         case "preview":
+        // this.$router.push({path:`/works/${row._id}`})
           // 预览
           break;
         case "delete":
@@ -163,6 +158,7 @@ export default {
   },
   created(){
     this.$store.dispatch("getWorks")
+
   }
 }
 </script>

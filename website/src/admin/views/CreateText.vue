@@ -1,5 +1,5 @@
 <template lang="html">
-    <Text-form>
+    <Text-form ref="text_form">
       <el-row class="btns" slot="btns">
         <el-button type="primary" @click="submit" :loading="loading">立即提交</el-button>
       </el-row>
@@ -27,13 +27,14 @@ export default {
         content_en:"",
         tittle_en:"",
         tittle_cn:"",
-        time_cn:""
+        time_cn:"",
+        fileList:[]
       })
     },
-    submit(){
-          this.loading =true
-          // console.log(moment(this.textInfo.time_cn).format('YYYY-MM-DD'))
-          // console.log()
+    async submit(){
+      // await  this.$refs.text_form.$refs.bioUpload.submit()
+      // console.log(this.textInfo)
+          // this.loading =true
           createText(this.textInfo).then(({data:{status}})=>{
             if(status===1){
               this.$message({

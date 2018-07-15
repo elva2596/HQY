@@ -1,95 +1,108 @@
 <template lang="html">
   <div class="container">
-    <div class="filter">
-    </div>
     <div class="nav">
+      <slot name="nav">
+        <div class="nav-head" :style="opacityStyle">
+          <!--  中英文切换-->
+          <Toggle
+            :toggleTo_cn="toggleTo_cn"
+            :toggleTo_en="toggleTo_en"
+            :isEn = "isEn"
+          ></Toggle>
+          <!-- <header>
+            <router-link to="/">{{author}}</router-link>
+          </header> -->
+          <!--  拇指导航-->
+          <div class="hamburger-button" @click="isHidden">
+            <div class="button hamburger" :class="{active:isShow}" >
+              <span class="icon"></span>
+            </div>
+          </div>
 
-      <!--  中英文切换-->
-      <div class="toggle" @click="toggle">
-        {{toggleButton}}
-      </div>
-      <!-- <header>
-        <router-link to="/">{{author}}</router-link>
-      </header> -->
-      <!--  拇指导航-->
-      <div class="button hamburger" :class="{active:isShow}" @click="isHidden">
-        <span class="icon"></span>
-      </div>
-
-      <!-- 满屏导航 -->
-      <transition name="list">
-        <ul class="navBar" v-show="isShow">
-          <template v-if="isEn">
-              <li v-for="(item,index) in navArrEn" :key="index">
-                <router-link :to="'/'+item.path">{{item.message}}</router-link>
-              </li>
-          </template>
-          <template id="" v-else>
-              <li v-for="(item,index) in navArr" :key="index">
-                  <router-link :to="'/'+item.path">{{item.message}}</router-link>
-              </li>
-          </template>
-        </ul>
-      </transition>
+        </div>
+      </slot>
+      <slot name="navList">
+          <!-- 满屏导航 -->
+          <transition name="list">
+            <ul class="navBar" v-show="isShow" @click="isHidden">
+              <template v-if="isEn">
+                  <li v-for="(item,index) in navArrEn" :key="index">
+                    <router-link :to="'/'+item.path">{{item.message}}</router-link>
+                  </li>
+              </template>
+              <template v-else>
+                  <li v-for="(item,index) in navArr" :key="index">
+                      <router-link :to="'/'+item.path">{{item.message}}</router-link>
+                  </li>
+              </template>
+            </ul>
+          </transition>
+      </slot>
     </div>
-
   </div>
 </template>
 
 <script>
-  import { mapState } from "vuex"
+import Toggle from "./Toggle"
+/**
+ * [展示型组件]
+ * @type {Object}
+ */
   export default {
-    data(){
-      return {
-        toggleButton:"中",
-        isShow:false,
-        navArr:[
-          {message:"新闻",path:"news"},
-          {message:"作品",path:"works"},
-          {message:"简历",path:"about"},
-          {message:"出版物",path:"publication"},
-          {message:"展览",path:"exhibition"},
-          {message:"文本",path:"text"},
-          {message:"联系",path:"contact"}
-        ],
-        navArrEn:[
-          {message:"NEWS",path:"news"},
-          {message:"WORKS",path:"works"},
-          {message:"BIOGRAPHY",path:"about"},
-          {message:"PUBLICATION",path:"publication"},
-          {message:"EXHIBITION",path:"exhibition"},
-          {message:"TEXT",path:"text"},
-          {message:"CONTACT",path:"contact"}
-        ]
-      }
+    components:{
+      Toggle
     },
-    methods:{
-      toggle(){
-
-        this.$store.commit("ISLOCAL")
-        if(!this.isEn){
-          this.toggleButton="中"
-        }else{
-          this.toggleButton="EN"
+    props:{
+      opacityStyle:{
+        type:Object,
+        default(){
+          return {
+            backgroundColor: "white"
+          }
         }
       },
-      isHidden(){
-        this.isShow = !this.isShow
-        this.$store.commit("HIDDEN",this.isShow)
-      }
-    },
-    computed:{
-      author(){
-        if(!this.isEn){
-          return "胡庆雁"
-        }else{
-          return "Hu Qingyan"
+      toggleButtonMsg:{
+        type:String,
+        default:""
+      },
+      isEn:{
+        type:Boolean,
+        default:false
+      },
+      navArr:{
+        type:Array,
+        required:true,
+        default(){
+          return [
+            {message:"",path:""},
+          ]
         }
       },
-      ...mapState(["isEn"])
-    },
-    mounted(){
-      console.log(window)
+      navArrEn:{
+        type:Array,
+        required:true,
+        default(){
+          return [
+            {message:"",path:""},
+          ]
+        }
+      },
+      toggleTo_cn:{
+        type:Function,
+        default:()=>{}
+      },
+      toggleTo_en:{
+        type:Function,
+        default:()=>{}
+      },
+      isHidden:{
+        type:Function,
+        default:()=>{}
+      },
+      isShow:{
+        type:Boolean,
+        default:false
+      }
     }
   }
 </script>
@@ -104,7 +117,6 @@
   .hamburger:before,
   .hamburger .icon,
   .hamburger:after {
-    /* color:; */
     display: block;
     width: 100%;
     height: .3rem;
@@ -131,28 +143,41 @@
     display: flex;
     font-size: 18px;
     transition: .3s;
+
+    color:#818181;
+    z-index:99;
+  }
+  .nav-head{
+    display: flex;
+    width: 100%;
     justify-content:space-between;
-    padding:1rem  2rem ;
-    color:#818181;
-    /* background: rgba(0,0,0,0.1); */
-    /* -webkit-filter: blur(1px) */
+    padding:2rem  3rem ;
   }
-  header a {
-    color:#818181;
-  }
+
+  .hamburger-button,
   .button,
   .toggle{
-    width: 1.8rem;
+    /* width: 1.8rem; */
     cursor:pointer;
-    z-index: 9999;
+    z-index: 999;
 
     /*同级元素同时设置position不等于static时候，后面覆盖前面，当设置后面的z-index值大于前面的时候，前面元素中的子元素的z-index
     设置的在大也没用
     */
   }
+  .toggle .cn{
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
   .button{
     width: 2rem;
     padding-top: 0.4rem;
+  }
+  .hamburger-button{
+    width: 2rem;
+    height: 2rem;
+    /* background: red; */
   }
   .navBar{
     background: rgba(255,255,255,0.9);
@@ -165,7 +190,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    z-index:999;
+  }
+  .navBar a{
+    font-family:"Source Sans Pro",sans-serif;
   }
   /**/
   .list-enter-active, .list-leave-active {
@@ -177,17 +204,21 @@
   }
   .container{
     width: 100%;
+
   }
-  .filter{
-    position: absolute;
-    top:0;
-    left:0;
-    right:0;
-    width: 100%;
-    /* background: red; */
-    height: 4.8rem;
-        /* background: rgba(0,0,0,0.1);
-    -webkit-filter: blur(1px) */
-    /* z-index:999; */
+
+  @media screen and (max-width:480px){
+    .navBar{
+      font-size: 14px;
+    }
+    .nav-head{
+      display: flex;
+      width: 100%;
+      justify-content:space-between;
+      padding:2rem ;
+    }
+    .button{
+      width: 1.8rem;
+    }
   }
 </style>

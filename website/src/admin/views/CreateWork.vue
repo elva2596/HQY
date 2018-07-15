@@ -29,26 +29,22 @@ export default {
     ...mapState(["actionUrl","workInfo","rules","headRule"])
     },
     created(){
-      // 创建作品的时候重新赋值
-      this.$store.commit("UPDATE_FIELD",{
-            title_cn:"",
-            title_en:"",
-            create_time:"",
-            coverUrl:"",
-            works:[
-              {
-                name_cn:"",
-                name_en:"",
-                desc_cn:"",
-                desc_en:"",
-                width:"",
-                length:"",
-                height:"",
-                imageUrl:'',
-                count:"一"
-              },
-            ]
-          })
+      this.$store.commit("RESET_ALLFIELDS",{
+        title_cn:"",
+        title_en:"",
+        create_time:"",
+        coverUrl:"",
+        works:[
+          {
+            name_cn:"",
+            name_en:"",
+            desc_cn:"",
+            desc_en:"",
+            imageUrl:'',
+            count:"一"
+          },
+        ]
+      })
     },
     methods: {
       add(){
@@ -73,9 +69,6 @@ export default {
             name_en:"",
             desc_cn:"",
             desc_en:"",
-            width:"",
-            length:"",
-            height:"",
             imageUrl:'',//最后过滤掉
             count:""//最后过滤掉
           },
@@ -166,9 +159,6 @@ export default {
                                 name_en:"",
                                 desc_cn:"",
                                 desc_en:"",
-                                width:"",
-                                length:"",
-                                height:"",
                                 imageUrl:'',
                                 count:"一"
                               },
