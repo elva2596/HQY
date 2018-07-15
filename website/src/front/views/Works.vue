@@ -44,6 +44,9 @@
               <div  @mouseover="imgMouseover(index)" @mouseout="imgmMouseout(index)" class="swiper-item" >
                 <img :src="list.imgSrc" alt="" @touchend="handletouch(index)">
                 <transition name="slide-fade">
+                  <!-- <VueScrollbar class="img-desc"  ref="Scrollbar" v-if="list.show&&text">
+                    <div class="pra-exh" v-html="text"></div>
+                  </VueScrollbar> -->
                 <VueScrollbar class="img-desc"  ref="Scrollbar" v-if="list.show&&list.text">
                   <div class="pra" v-html="list.text"></div>
                 </VueScrollbar>
@@ -391,7 +394,7 @@ export default {
     overflow: hidden;
   }
   .pra{
-    height:14rem;
+    /* height:14rem; */
     /* min-height: 14rem; */
     padding: 1rem;
   }
@@ -485,6 +488,7 @@ export default {
     height:94%;
     position:relative;
     overflow: hidden;
+    margin-top:5rem;
   }
   @media screen and (max-width:480px){
     .list{

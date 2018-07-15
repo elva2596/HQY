@@ -38,7 +38,7 @@
               <div @mouseover="imgMouseover(index)" @mouseout="imgmMouseout(index)" class="swiper-item" >
                 <img :src="list.imageUrl" alt="" @touchend="handletouch(index)">
                 <transition name="slide-fade">
-                <VueScrollbar class="img-desc"  ref="Scrollbar" v-if="list.show">
+                <VueScrollbar class="img-desc"  ref="Scrollbar" v-if="list.show&&text">
                   <div class="pra-exh" v-html="text"></div>
                 </VueScrollbar>
               </transition>
