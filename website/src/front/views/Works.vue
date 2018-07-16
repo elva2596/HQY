@@ -16,6 +16,7 @@
             <span class="time" v-if="list.time">{{list.time}}</span>
           </div> -->
         <!-- <transition name="fade"> -->
+        
           <div class="img">
             <img  v-lazy="list.imgSrc" alt="" ref="childs"
             >
