@@ -158,7 +158,7 @@ export default {
   },
   created(){
     this.$store.dispatch("getWorks")
-
+    console.log(picLists)
   }
 }
 </script>

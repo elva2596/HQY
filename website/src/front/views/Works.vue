@@ -17,7 +17,7 @@
           </div> -->
         <!-- <transition name="fade"> -->
           <div class="img">
-            <img  v-lazy="list.imgSrc" alt=""
+            <img  v-lazy="list.imgSrc" alt="" ref="childs"
             >
             <span class="title img-tittle" >{{list.tittle}}</span>
           </div>
@@ -221,6 +221,7 @@ export default {
       })
     }
     this.$store.dispatch("getWorks").then(re=>{
+      console.log(re)
       this.workInfo = re.reverse().map(item=>({
         ...item,
         show:false
@@ -231,6 +232,7 @@ export default {
     if(isMobile()){
       this.ishover = true
     }
+    console.log(this.$refs)
   }
 }
 </script>
@@ -282,21 +284,44 @@ export default {
   opacity: 0;
 }
   .list{
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    font-family:"PingFangSC";
-    padding-bottom: 4rem;
+    /* display: flex;
+    flex-wrap: wrap; */
+    /* width: 100%; */
+    /* padding-left: 3rem;
+    padding-right: 3rem; */
+    /* justify-content: space-between; */
     margin-top: 4rem;
+    font-family:"PingFangSC";
+    /* padding-bottom: 4rem;
+     */
+  }
+  .list::after{
+    content:"";
+    display: block;
+    clear:both;
   }
   .list li {
-    width:25%;
-    height: 16rem;
-    text-align: left;
+    width:20%;
+    height: 20rem;
+    padding: 1rem;
+    padding-top: 2rem;
+    /* background: red; */
+    /* margin-right: 20px; */
+    margin-left: 2.5%;
+    margin-right:2.5%;
+    margin-bottom: 2rem;
+    float:left;
+    cursor: pointer;
+    /* text-align: left; */
     position: relative;
-    flex:0 1 25%;
-    margin:3rem 0;
+      /* box-shadow:1px 1px 5px #333; */
+      /* border-radius: 5px; */
+    /* flex:0 1 20%; */
+    /* margin:3rem 0; */
+    /* border:1px solid silver; */
+  }
+  .list li:hover{
+    opacity: 0.6;
   }
   .list li .info{
     width: 100%;
@@ -316,6 +341,7 @@ export default {
     display:block;
     font-size: 14px;
     color:#000000;
+
   }
   .list li .time{
     bottom:.2rem;
@@ -332,19 +358,23 @@ export default {
   .list li .title{
     display:block;
     width: 100%;
-    font-size: 18px;
+    font-size: 16px;
     color:#000000;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
     padding-right: 5rem;
+    padding-left: 5rem;
   }
   .list li .img{
     height: 100%;
+    width: 100%;
     /* cursor: pointer; */
   }
   .list li img{
-    height:100%;
+     height:86%;
+     max-width: 100%;
+     display: inline-block;
     cursor: pointer;
   }
   .list li .ishover{
@@ -356,7 +386,7 @@ export default {
     color:white;
   }
   .img-tittle{
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
   }
   .loop-container{
     position: fixed;
