@@ -516,14 +516,21 @@ export default {
     }
     .swiper-item{
       width: 100%;
+      /* height: 80%; */
+      /* bottom:0; */
       position:static;
+      /* padding-top: 5rem; */
+      /* margin-top: 5rem; */
     }
     .loop img{
       max-width: 100%;
+      margin:0 auto;
       position: absolute;
+      margin-top: 3rem;
       top:50%;
-      left:50%;
-      transform: translate(-50%,-50%);
+      /* left:50%; */
+      /* transform: translate(-50%,-50%); */
+      transform: translateY(-50%);
     }
     .swiper-button-prev,
     .swiper-button-next{

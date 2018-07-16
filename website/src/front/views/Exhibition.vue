@@ -587,12 +587,12 @@ img.ishover:hover{
   .loop img{
     /* margin-top: 4rem;
     margin-bottom: 4rem; */
-    position: absolute;
     max-width: 100%;
-    top:calc(50%);
-    left:50%;
-    /* transform: translateX(-50%) */
-    transform: translate(-50%,-50%);
+    margin:0 auto;
+    position: absolute;
+    margin-top: 3rem;
+    top:50%;
+    transform: translateY(-50%);
     /* width: 10rem; */
     /* height:10rem; */
   }
