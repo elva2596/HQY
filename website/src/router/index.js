@@ -1,45 +1,83 @@
+/**
+ * 把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件
+ */
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Hello from '@/components/Hello'
-import Register from "@/admin/views/Register"
-import Login from "@/admin/views/Login"
-import Home from "@/admin/views/Home"
+const Register = () => import("@/admin/views/Register")
+const Login = () => import("@/admin/views/Login")
+// import Login from "@/admin/views/Login"
+const Home = () => import("@/admin/views/Home")
+// import Home from "@/admin/views/Home"
+
 import store from '@/stores'
-import Works from "@/admin/views/Works"
-import Biography from "@/admin/components/Biography"
-import News from "@/admin/views/News"
-import Publications from "@/admin/views/Publications"
-import Texts from "@/admin/views/Texts"
-import Exhibitions from "@/admin/views/Exhibitions"
-import CreateExhibition from "@/admin/views/CreateExhibition"
-import CreateNew from "@/admin/views/CreateNew"
-import createPublication from "@/admin/views/CreatePub"
-import CreateText from "@/admin/views/CreateText"
-import CreateWork from "@/admin/views/CreateWork"
-import Explain from "@/admin/components/Explain"
-import Set from "@/admin/components/Set"
-import Contact from "@/admin/views/Contact"
-import f_Contact from "@/front/views/Contact"
-import About from "@/front/views/About"
-import Publication from "@/front/views/Publication"
-import f_Home from "@/front/views/Home"
-import Text from "@/front/views/Text"
+const Works = () => import("@/admin/views/Works")
+// import Works from "@/admin/views/Works"
+const Biography = () => import("@/admin/components/Biography")
+// import Biography from "@/admin/components/Biography"
+const News = () => import("@/admin/views/News")
+// import News from "@/admin/views/News"
+const Publications = () => import("@/admin/views/Publications")
+// import Publications from "@/admin/views/Publications"
+const Texts = () => import("@/admin/views/Texts")
+// import Texts from "@/admin/views/Texts"
+const Exhibitions = () => import("@/admin/views/Exhibitions")
+// import Exhibitions from "@/admin/views/Exhibitions"
+const CreateExhibition = () => import("@/admin/views/CreateExhibition")
+// import CreateExhibition from "@/admin/views/CreateExhibition"
+const CreateNew = () => import("@/admin/views/CreateNew")
+// import CreateNew from "@/admin/views/CreateNew"
+const createPublication = () => import("@/admin/views/CreatePub")
+// import createPublication from "@/admin/views/CreatePub"
+const CreateText = () => import("@/admin/views/CreateText")
+// import CreateText from "@/admin/views/CreateText"
+const CreateWork = () => import("@/admin/views/CreateWork")
+// import CreateWork from "@/admin/views/CreateWork"
+const Explain = () => import("@/admin/components/Explain")
+// import Explain from "@/admin/components/Explain"
+const Set = () => import("@/admin/components/Set")
+// import Set from "@/admin/components/Set"
+const Contact = () => import("@/admin/views/Contact")
+// import Contact from "@/admin/views/Contact"
+const f_Contact = () => import("@/front/views/Contact")
+// import f_Contact from "@/front/views/Contact"
+const About  = () => import ("@/front/views/About")
+const Publication = () => import ("@/front/views/Publication")
+const f_Home = () => import ("@/front/views/Home")
+const f_Texts = () => import ("@/front/views/Texts")
+const f_Text = () => import("@/front/views/Text")
+const Front = () => import ("@/front/views/index.vue")
+const f_Works = () => import("@/front/views/Works")
+const f_News = () => import("@/front/views/news")
+const f_Exhs = () => import("@/front/views/Exhibition")
 Vue.use(Router)
 const router = new Router({
+ mode: 'history',
   routes: [
-    { path: '/', component: f_Home, hidden:true},
-    {path:"/contact",component:f_Contact,hidden:true},
-    {path:"/about",component:About,hidden:true},
-    {path:"/publication",component:Publication,hidden:true},
+    {
+      path: '/',
+      component: Front,
+      hidden:true,
+      children:[
+        {path:'',component:f_Home,hidden:true},
+        {path:"contact",component:f_Contact,hidden:true},
+        {path:"about",component:About,hidden:true},
+        {path:"publication",component:Publication,hidden:true},
+        {path:"works",component:f_Works,hidden:true},
+        { path: "text",name:"text",component:f_Texts,hidden:true },
+        { path: "text/:id",name:"page",component:f_Text,hidden:true },
+        { path:"news",name:"news",component:f_News,hidden:true },
+        { path:"exhibition",name:"exhibitions",component:f_Exhs,hidden:true }
+      ]
+    },
     { path: "/register", name:"Register", component:Register, hidden:true },
     { path: "/login", name:"login", component:Login, hidden:true },
-    { path: "/texts",name:"text",component:Text,hidden:true },
     {
       path: "/admin",
       component: Home,
       name:"数据管理",
       icon:"folder",
       children:[
+        { path: '', name: "后台首页", component: Works, icon:'file-image-o', meta: { requiresAuth: true } },
         { path: 'works', name: "作品列表", component: Works, icon:'file-image-o', meta: { requiresAuth: true } },
         { path: 'exhibitions', name: "展览列表", component: Exhibitions, icon:'list', meta: { requiresAuth: true } },
         { path: 'publications', name: "出版物列表", component: Publications, icon:'book', meta: { requiresAuth: true } },

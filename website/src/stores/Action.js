@@ -18,8 +18,11 @@ import {
   editPub,
   updatePub,
   editText,
-  updateText
+  updateText,
+  getTexts,
+  deleteText
  } from "@/api"
+ import {Message} from "element-ui"
 export default {
   async login({commit},data){
       // 这里调用API和后台通信
@@ -42,7 +45,10 @@ export default {
       item.visible = false
       return item
     })
+
+    console.log(filterworks)
     commit("GET_WORKS",filterworks)
+    return filterworks
   },
   async deleteWork({commit},data){
     await deleteWork(data.id)
@@ -53,7 +59,7 @@ export default {
     commit("DELETE_EXH",data.index)
   },
   async deleteNew({commit},data){
-    await deleteOneNew(data.id)
+    const val =   await deleteOneNew(data.id)
     commit("DELETE_NEW",data.index)
   },
   async editWork({commit},data){
@@ -74,6 +80,7 @@ export default {
   },
   async editOneText({commit},data){
     let oneNew = await editText(data)
+    console.log(oneNew)
     commit("GET_TEXT",oneNew.data.data)
   },
   async updateWork({commit},data){
@@ -82,11 +89,15 @@ export default {
   async updateExhibition({commit},data){
     await updateExh(data)
   },
-  async updateOneNew({commit},data){
-    await updateNew(data)
+  async updateOneNew({commit},payload){
+    const {newsInfo,index} = payload
+    await updateNew(newsInfo)
+    commit("UPDATE_NEWS",payload)
   },
-  async updateOneText({commit},data){
-    await updateText(data)
+  async updateOneText({commit},payload){
+    const {textInfo,index} =payload
+    await updateText(textInfo)
+    commit("UPDATE_TEXTS",payload)
   },
   async getExhs({commit}){
     let {data} = await getExhibitions()
@@ -102,17 +113,17 @@ export default {
     commit("GET_EXHS",filterexhs)
   },
   async getAllNews({commit}){
-    let {data} = await getNews()
-    let filternews = data.data.map(item=>{
-       item.imgObj = {
-        src:item.coverUrl,
-        error: "http://abc.dailu.site/15e0e346278.jpg",
-        loading: "http://abc.dailu.site/15e105b23e5.jpg"
-      }
-      item.visible = false
-      return item
-    })
-    commit("GET_NEWS",filternews)
+    try{
+      let {data:{data}} = await getNews()
+      commit("GET_NEWS",data)
+    }catch(err){
+      console.log(err)
+      Message({
+        type:"error",
+        message:"获取新闻列表失败"
+      })
+    }
+
   },
   async getAllPubs({commit}){
     let {data} = await getPublications()
@@ -133,5 +144,13 @@ export default {
   },
   async updatePublication({commit},data){
     await updatePub(data)
+  },
+  async getTexts({commit}){
+    const {data:{data}} = await getTexts()
+    commit("GET_TEXTS",data)
+  },
+  async deleteText({commit},payload){
+    await deleteText(payload.id)
+    commit("DELETE_TEXT",payload.index)
   }
 }

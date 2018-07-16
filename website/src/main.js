@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import "babel-polyfill";
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -26,6 +27,8 @@ import "vue-awesome/icons/info-circle"
 import "vue-awesome/icons/cog"
 import "vue-awesome/icons/file-text-o"
 import VueQuillEditor from "vue-quill-editor"
+import Vuebar from 'vuebar';
+
 import {
  Form,
  FormItem,
@@ -84,6 +87,8 @@ Vue.use(InputNumber)
 Vue.use(VueQuillEditor)
 Vue.use(Table)
 Vue.use(TableColumn)
+Vue.use(Vuebar);
+// Vue.use(VuePreview)
 import Icon from 'vue-awesome/components/Icon'
 Vue.component('icon', Icon)
 Vue.config.productionTip = false
@@ -91,6 +96,7 @@ Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$http = Auth_axios
 Vue.prototype.$ajax = NoAuth_axios
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

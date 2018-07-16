@@ -7,6 +7,12 @@
       <h4>出版物标题英文</h4>
       <el-input class="pub_tittle" placeholder="请填写英文标题" v-model="pubInfo.tittle_en"></el-input>
     </div>
+    <div class="time">
+      <h4>中文出版时间</h4>
+      <el-input class="pub_tittle" placeholder="请填写中文出版时间" v-model="pubInfo.create_time_cn"></el-input>
+      <h4>英文出版时间</h4>
+      <el-input class="pub_tittle" placeholder="请填写英文出版时间" v-model="pubInfo.create_time_en"></el-input>
+    </div>
     <div class="cover">
       <h4>添加出版物封面</h4>
       <el-upload
@@ -35,7 +41,6 @@
           class="editer"
           v-model="pubInfo.content_en"
           ref="editor_en"
-          :options="options_en"
           ></quill-editor>
     </div>
     <slot name="btns">
@@ -49,28 +54,8 @@ import { mapState } from "vuex"
 export default {
   data(){
     return {
-      options_en:{
-        //  placeholder:"请在这里填写英文内容"
-      },
       options_cn:{
         placeholder:"请在这里填写中文内容"
-      },
-      rules:{
-        title_cn:[
-          {required:true,message:"请填写中文展览名称",trigger:"blur"}
-        ],
-        title_en:[
-          {required:true,message:"请填写英文展览名称",trigger:"blur"}
-        ],
-        create_time:[
-          {type: 'date', required: true, message: '请选择日期', trigger: 'blur'}
-        ],
-        desc_cn:[
-          { required:true,message:"请填写中文展览描述",trigger:"blur"}
-        ],
-        desc_en:[
-          { required:true,message:"请填写英文展览描述",trigger:"blur"}
-        ]
       }
     }
   },
@@ -79,7 +64,9 @@ export default {
   },
   methods: {
     hadnleCoverSuccess(response,file,fileList){
-      this.pubInfo.coverUrl = response.data
+      this.$store.commit("UPDATE_PUB_COVER",{
+        url:response.data
+      })
     }
   }
 

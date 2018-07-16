@@ -6,26 +6,26 @@
         <div v-if="item.visible" class="dialog">
           <div class="btnGroup">
             <span class="btn" @click="trigger('edit',item,index)">编辑</span>
-            <span class="btn" @click="trigger('preview',item,index)">查看</span>
             <span class="btn" @click="trigger('delete',item,index)">删除</span>
           </div>
         </div>
       </li>
    </ul>
     <el-dialog :visible.sync="visible"  :title="title" :size="size">
-      <Exhibition-Form ref="updateExh">
+      <works-form ref="worksFrom">
         <el-row class="btns" slot="btns">
-          <el-button type="primary"  @click="update" :disabled="disabled">立即更新</el-button>
+          <el-button type="primary" v-if="isShow" @click="update" :disabled="disabled">立即更新</el-button>
+          <el-button @click="add" type="success" icon="plus" :disabled="disabled">新增</el-button>
+          <el-button type="danger" icon="delete" v-if="isDelete" @click="remove" :disabled="disabled">删除</el-button>
           <el-button  icon="delete" @click="cancel" :disabled="disabled">取消</el-button>
         </el-row>
-      </Exhibition-Form>
+      </works-form>
     </el-dialog>
   </div>
 
 </template>
 
 <script>
-import {getWorks,deleteWork} from "@/api"
 import {mapActions,mapState} from "vuex"
 import utils from "@/utils"
 import ExhibitionForm from "@/admin/components/ExhibitionForm.vue"
@@ -37,7 +37,7 @@ export default {
       imageUrl:"",
       loading:false,
       disabled:false,
-      // picLists:[],
+      // exhLists:[],
       visible:false,
       type:'',
       size:'',
@@ -46,9 +46,9 @@ export default {
     }
   },
   watch:{
-    workInfo:{
+    exhInfo:{
       handler(oldVal,newVal){
-        if(newVal.works.length<=1){
+        if(newVal.exhs.length<=0){
           this.isDelete = false
         }else{
           this.isDelete = true
@@ -59,81 +59,88 @@ export default {
   },
   methods:{
     update(){
-
-      this.$refs["updateExh"].$refs["exhForm"].validate(valid=>{
-        if(valid){
-          this.disabled = true
-          console.log(this.exhInfo)
-          this.$store.dispatch("updateExhibition",this.exhInfo)
-                      .then(()=>{
-                        this.$message({
-                          message:"保存成功",
-                          type: 'success',
-                          onClose:()=>{
-                            this.visible = false
-                            this.disabled = false
-                          }
-                        })
+      this.disabled = true
+      if(this.exhInfo.exhs.every(item=>{return item.name_cn!==''})){
+        this.$store.dispatch("updateExhibition",this.exhInfo)
+                    .then(()=>{
+                      this.$message({
+                        message:"保存成功",
+                        type: 'success',
+                        onClose:()=>{
+                          this.visible = false
+                          this.disabled = false
+                        }
                       })
-        }else{
-          this.$message({
-            type: 'error',
-            message: '请填写完必要的表单字段!',
-            onClose:()=>{
-              // this.visible = false
-              this.disabled = false
-            }
-          });
-        }
-      })
+                    })
+      }else{
+        this.$message({
+          type: 'error',
+          message: '请填写完必要的表单字段!',
+          onClose:()=>{
+            this.disabled = false
+          }
+        });
+      }
     },
     cancel(){
       this.visible = false
     },
     remove(){
-      this.$store.commit("REMOVE_FIELD")
+      this.$store.commit("REMOVE_EXH_FIELD")
+      if(this.exhInfo.exhs.length<=0){
+        this.isShow = false
+      }
+    },
+    add(){
+      let count = utils.changeNumber(this.exhInfo.exhs.length+1)
+      const data = {
+        info:{
+          imageUrl:'',//最后过滤掉
+          count:""//最后过滤掉
+        },
+        count
+      }
+      this.$store.commit("ADD_EXH_FIELD",data)
+      if(this.exhInfo.exhs.length>0){
+        this.isShow = true
+      }
     },
     trigger(type,item,index){
       this.type=type
       switch(type){
         case "edit":
-        this.size= "full"
-        this.title="编辑展览物"
-        this.visible=true
-        this.$store.dispatch("editExh",item._id).then(re=>{
-
-            console.log(new Date(Date.parse(this.exhInfo.create_time)))
-        })
+          this.size= "full"
+          this.title="编辑展览"
+          this.visible=true
+          this.$store.dispatch("editExh",item._id)
           // 显示编辑的弹出框
           break;
-        case "preview":
-          // 预览
-          break;
         case "delete":
-        this.$confirm('此操作将永久删除该作品, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$store.dispatch("deleteExh",{id:item._id,index})
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+          this.$confirm('此操作将永久删除该作品, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$store.dispatch("deleteExh",{id:item._id,index})
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          }).catch(() => {
           });
-        }).catch(() => {
-        });
           break;
       }
     }
   },
   components:{
-    "Exhibition-Form":ExhibitionForm
+    "works-form":ExhibitionForm
   },
   computed:{
     ...mapState(["actionUrl","exhInfo","rules","headRule","exhLists"])
   },
   created(){
     this.$store.dispatch("getExhs")
+
   }
 }
 </script>

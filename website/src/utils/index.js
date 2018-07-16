@@ -1,3 +1,4 @@
+
 export default {
   changeNumber(val){
     switch(val){
@@ -17,9 +18,7 @@ export default {
         return "五"
     }
   },
-  timeToStampString(time){
-    return Date.parse(time)
-  },
+
   /**
    * [判断是否是一定断设备]
    * @param  {[type]}  userAgent [description]
@@ -29,5 +28,24 @@ export default {
     const userAgentInfo = window.navigator.userAgent;
     const agents = ["Android","iPhone","Windows Phone"]
     return agents.some((agent)=>userAgentInfo.indexOf(agent)>-1)
+  },
+
+  filterUrl(arr,isEn) {
+    let urlArr = []
+    if(arr&&arr.length>0){
+      if(isEn){
+       urlArr = arr.filter(item => /[\w]*\-EN$/.test(item.name.match(/(\S*)\.pdf$/)[1]))
+         if(urlArr.length>0){
+           return urlArr[0].url
+         }
+      }else{
+       urlArr = arr.filter(item => /[\w]*\-CN$/.test(item.name.match(/(\S*)\.pdf$/)[1]))
+        if(urlArr.length>0){
+          return urlArr[0].url
+        }
+      }
+      // return arr[0].url
+    }
+    return null
   }
 }

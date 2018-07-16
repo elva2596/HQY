@@ -1,18 +1,18 @@
 <template lang="html">
   <div>
-    <ul ref="container" class="picLists">
-      <li v-for="(item,index) in newsLists" @mouseenter="item.visible=true" @mouseleave="item.visible=false">
-        <img v-lazy="item.imgObj"/>
-        <div v-if="item.visible" class="dialog">
-          <div class="btnGroup">
-            <span class="btn" @click="trigger('edit',item,index)">编辑</span>
-            <span class="btn" @click="trigger('preview',item,index)">查看</span>
-            <span class="btn" @click="trigger('delete',item,index)">删除</span>
-          </div>
-        </div>
-      </li>
-   </ul>
-    <el-dialog :visible.sync="visible"  :title="title" :size="size">
+    <el-table
+        :data="newsLists"
+         border>
+        <el-table-column label="新闻标题" prop="tittle_cn" align="center"></el-table-column>
+        <el-table-column label="操作" align="center">
+          <template slot-scope="scope">
+             <el-button size="small" @click="edit(scope.$index,scope.row)">编辑</el-button>
+             <!-- <el-button size="small" type="primary" @click="preview(scope.$index,scope.row)">查看</el-button> -->
+             <el-button size="small" type="danger" @click="remove(scope.$index,scope.row)">删除</el-button>
+           </template>
+        </el-table-column>
+    </el-table>
+    <el-dialog :visible.sync="visible"  :tittle="tittle" :size="size">
       <news-form ref="updateNew">
         <el-row class="btns" slot="btns">
           <el-button type="primary"  @click="update" :disabled="disabled">立即更新</el-button>
@@ -33,96 +33,80 @@ export default {
   data(){
     return {
       isShow:true,
-      imageUrl:"",
-      loading:false,
       disabled:false,
-      // picLists:[],
       visible:false,
-      type:'',
       size:'',
-      title:'',
-      isDelete:false
-    }
-  },
-  watch:{
-    workInfo:{
-      handler(oldVal,newVal){
-        if(newVal.works.length<=1){
-          this.isDelete = false
-        }else{
-          this.isDelete = true
-        }
-      },
-      deep:true
+      tittle:'',
+      isDelete:false,
+      curIndex:'',
     }
   },
   methods:{
-    update(){
-      console.log(this.$refs["updateNew"])
-      this.$refs["updateNew"].$refs["newForm"].validate(valid=>{
-        if(valid){
-          this.disabled = true
-          this.$store.dispatch("updateOneNew",this.newsInfo)
-                      .then(()=>{
-                        this.$message({
-                          message:"保存成功",
-                          type: 'success',
-                          onClose:()=>{
-                            this.visible = false
-                            this.disabled = false
-                          }
-                        })
-                      })
-        }else{
-          this.$message({
-            type: 'error',
-            message: '请填写完必要的表单字段!',
-            onClose:()=>{
-              // this.visible = false
-              this.disabled = false
-            }
-          });
-        }
+    edit(index,row){
+      this.visible=true
+      this.size= "full"
+      this.curIndex = index
+      this.$store.dispatch("editNew",row._id)
+    },
+    remove(index,row){
+      this.$confirm('此操作将永久删除该作品, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
+      .then(() => {
+          this.$store
+              .dispatch("deleteNew",{id:row._id,index})
+              .then(()=>{
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+              })
+              .catch(err=>{
+                this.$message({
+                  type: 'error',
+                  message: '删除失败!'
+                });
+              })
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+    },
+    update(){
+      this.disabled = true
+      this.$store
+          .dispatch("updateOneNew",{newsInfo:this.newsInfo,index:this.curIndex})
+          .then(()=>{
+            this.$message({
+              message:"保存成功",
+              type: 'success',
+              onClose:()=>{
+                this.visible = false
+                this.disabled = false
+              }
+            })
+          })
+          .catch((err)=>{
+            this.$message({
+              message:"保存失败",
+              type: 'error',
+              onClose:()=>{
+                this.disabled = false
+              }
+            })
+          })
     },
     cancel(){
       this.visible = false
     },
-    trigger(type,item,index){
-      this.type=type
-      switch(type){
-        case "edit":
-        this.size= "full"
-        this.title="编辑新闻"
-        this.visible=true
-        this.$store.dispatch("editNew",item._id)
-          // 显示编辑的弹出框
-          break;
-        case "preview":
-          // 预览
-          break;
-        case "delete":
-        this.$confirm('此操作将永久删除该作品, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$store.dispatch("deleteNew",{id:item._id,index})
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-        });
-          break;
-      }
-    }
   },
   components:{
     "news-form":newsForm
   },
   computed:{
-    ...mapState(["actionUrl","newsInfo","newsLists"])
+    ...mapState(["newsInfo","newsLists"])
   },
   created(){
     this.$store.dispatch("getAllNews")
@@ -131,19 +115,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.picLists{
-  display: flex;
-  flex-wrap: wrap;
-}
-.picLists li{
-  position: relative;
-  margin: 6px;
-}
-[lazy]{
-  width: 230px;
-  height: 160px;
-  vertical-align: middle;
-}
 .dialog{
   position: absolute;
   background: rgba(0,0,0,0.4);
@@ -152,16 +123,6 @@ export default {
   left:0;
   right:0;
   color:white;
-}
-.btnGroup{
-  position: absolute;
-  top:50%;
-  left:50%;
-
-  transform: translate(-50%,-50%);
-}
-.btn:hover{
-  cursor: pointer;
 }
 .wrap{
   border-radius: 6px;
@@ -181,35 +142,10 @@ export default {
   margin-bottom: 30px;
   text-align: left;
 }
- .avatar-uploader-icon:hover {
-   border-color: #20a0ff;
- }
- .avatar-uploader-icon {
-   font-width: 28px;
-   color: #8c939d;
-   width: 178px;
-   height: 178px;
-   line-height: 178px;
-   text-align: center;
-   border: 2px dashed #d9d9d9 ;
-   border-radius: 6px;
- }
- .avatar {
-   width: 178px;
-   height: 178px;
-   display: block;
-   border-radius: 6px;
- }
+
 .btns{
   padding-bottom: 20px;
   padding-top: 20px;
   border-top:2px solid  #d9d9d9 ;
-}
-h3{
-  margin:16px 0;
-  font-width: 18px;
-}
-.text-center{
-  text-align: center;
 }
 </style>

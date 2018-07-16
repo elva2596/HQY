@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="wrap">
-    <HeadNav></HeadNav>
+    <!-- <HeadNav></HeadNav> -->
     <div v-html="content" class="content">
     </div>
   </div>
@@ -32,8 +32,12 @@ export default {
   },
   created(){
     getContact().then(({data:{data}})=>{
+      console.log(data)
+      if(data&&data.length>0){
         this.content_en = data[0].content_en
         this.content_cn = data[0].content_cn
+      }
+
     })
   },
 }
@@ -51,5 +55,4 @@ export default {
     transform: translate(-50%,-50%);
     z-index:-99;
   }
-
 </style>

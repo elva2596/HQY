@@ -6,14 +6,25 @@
       <el-input class="pub_tittle" placeholder="请填写中文标题" v-model="textInfo.tittle_cn"></el-input>
       <h4>文本标题英文</h4>
       <el-input class="pub_tittle" placeholder="请填写英文标题" v-model="textInfo.tittle_en"></el-input>
-      <h4>文本发布时间</h4>
-      <!-- <el-input class="pub_tittle" placeholder="请填写文本发布时间中文" v-model="textInfo.time_cn"></el-input> -->
-      <el-date-picker
-    v-model="textInfo.time_cn"
-    type="date"
-    placeholder="选择日期"
-    class="pub_tittle">
-  </el-date-picker>
+      <h4>作者和时间中文</h4>
+      <el-input class="pub_tittle" placeholder="请填写作者和时间中文" v-model="textInfo.authorInfo_cn"></el-input>
+      <h4>作者和时间英文</h4>
+      <el-input class="pub_tittle" placeholder="请填写作者和时间英文" v-model="textInfo.authorInfo_en"></el-input>
+    <!-- <el-upload
+      class="bio-upload"
+      ref="bioUpload"
+      :action="actionUrl"
+      :before-upload = "beforeUpload"
+      :on-remove="handleRemove"
+      :on-success="handleSuccess"
+      :file-list="textInfo.fileList">
+      <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+      <div slot="tip" class="el-upload__tip">请上传您的文本,命名请按照-CN.pdf/-EN.pdf结尾</div>
+    </el-upload> -->
+    <UploadPdf
+      :infoFileLists="textInfo.fileList"
+      :actionUrl="actionUrl"
+    ></UploadPdf>
     </div>
     <div class="edit_container">
       <h4 class="title">文本内容中文</h4>
@@ -39,6 +50,11 @@
 </template>
 
 <script>
+/**
+ * [options_cn 把上传组件单独提取出来]
+ * @type {Object}
+ */
+import UploadPdf from "./UploadPdf"
 import { mapState } from "vuex"
 export default {
   data(){
@@ -50,6 +66,9 @@ export default {
   },
   computed:{
       ...mapState(["textInfo","actionUrl"])
+  },
+  components:{
+    UploadPdf
   }
 }
 </script>
@@ -89,6 +108,7 @@ export default {
 .edit_container{
   padding: 40px 0;
   margin-bottom: 40px;
+
 }
 .editer{
   height: 300px;
@@ -107,4 +127,7 @@ export default {
   padding-bottom:30px;
   border-bottom: 1px solid silver;
 }
+/* .bio-upload{
+  margin-top: 30px;
+} */
 </style>

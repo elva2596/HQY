@@ -18,6 +18,7 @@ function isLogin(){
 }
 const store = new Vuex.Store({
   state:{
+    isloop:false,
     hidden:true,
     isEn:false,
     contactContent:"",
@@ -26,43 +27,46 @@ const store = new Vuex.Store({
     exhLists:[],
     newsLists:[],
     pubLisits:[],
+    textsLists:[],
     isCollapse:false,
-    actionUrl:"http://127.0.0.1:8089/api/admin/imgs",
+    actionUrl:"http://39.106.216.187:8089/api/admin/imgs",
     workInfo:{
       title_cn:"",
       title_en:"",
-      create_time:"",
+      create_time_cn:"",
+      create_time_en:"",
       coverUrl:"",
       works:[
         {
-          name_cn:"",
-          name_en:"",
+          // name_cn:"",
+          // name_en:"",
           desc_cn:"",
           desc_en:"",
-          width:"",
-          length:"",
-          height:"",
           imageUrl:'',
           count:"一"
         },
       ]
     },
     exhInfo:{
-      title_cn:"",
-      title_en:"",
+      tittle_cn:"",
+      tittle_en:"",
       place_cn:"",
       place_en:"",
-      create_time:"",
+      create_time_cn:"",
+      create_time_en:"",
       coverUrl:"",
       desc_cn:"",
       desc_en:"",
+      exhs:[
+        {
+          imageUrl:'',
+          count:"一"
+        },
+      ]
     },
     newsInfo:{
-      title_cn:"",
-      title_en:"",
-      place_cn:"",
-      place_en:"",
-      coverUrl:"",
+      tittle_cn:"",
+      tittle_en:"",
       content_cn:"",
       content_en:""
     },
@@ -70,6 +74,8 @@ const store = new Vuex.Store({
       content_cn:"",
       content_en:"",
       coverUrl:"",
+      create_time_cn:"",
+      create_time_en:"",
       tittle_en:"",
       tittle_cn:""
     },
@@ -78,7 +84,9 @@ const store = new Vuex.Store({
       content_en:"",
       tittle_cn:"",
       tittle_en:"",
-      time_cn:"",
+      authorInfo_cn:"",
+      authorInfo_en:"",
+      fileList:[]
       // time_en:""
     },
     contactInfo:{

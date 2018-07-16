@@ -53,6 +53,7 @@ body{
 }
 #app,html,body{
   height: 100%;
+
 }
 h3{
   margin:0;
@@ -74,4 +75,102 @@ ul{
 }
 #app{
   position: relative;
+
+}
+
+/**
+ * 文本详情样式
+ */
+ .main .article p span{
+  text-indent: 2em;
+  color:#5A5A5A !important;
+  text-indent: 2em !important;;
+  line-height:3rem !important;;
+  font-size: 20px !important;
+  /* color:red; */
+}
+
+
+.desc p{
+  color:#5A5A5A !important;
+}
+.ql-container.ql-snow{
+  border:none !important;
+}
+.ql-container {
+  padding-bottom: 100px !important;
+}
+.about-content h3,
+.about-content h6,
+.about-content h6 span
+{
+  font-size: 14px;
+}
+.ql-container p {
+  font-style: normal;
+}
+.news article p{
+  margin-bottom: 1rem !important;
+  font-size: 16px;
+}
+.news article p:nth-last-child(2){
+  margin-bottom:0 !important;
+}
+.news article a:hover{
+  opacity: 0.7;
+}
+.pra p{
+  margin-bottom: 1rem;
+  /* font-size: 14px !important; */
+}
+
+
+.exh.item {
+    position:relative;
+    line-height:1.4em;
+    /* 3 times the line-height to show 3 lines */
+    max-height:7em;
+    overflow:hidden;
+}
+.exh.item::after {
+
+}
+.exh.item p {
+  font-size: 16px;
+  text-align: left;
+}
+.pra-exh p span{
+  color:white !important;
+}
+@media screen and (max-width:480px){
+  .news-texts span,
+  .exh.item p{
+    font-size: 14px !important;
+  }
+  .main .article p,
+  .main .article p span,
+  .content h4,
+  .content p{
+    font-size: 16px !important;
+  }
+  .news article p{
+    font-size: 14px !important;
+    margin-bottom: .4rem !important;
+  }
+  .news article a:hover{
+    opacity: 1;
+  }
+  /* 作品文字移动端样式 */
+  .pra p{
+    margin-bottom: .4rem;
+    font-size: 14px !important;
+  }
+  .exh.item::after {
+      padding:0 1.2rem 1px 0;
+  }
+}
+@media screen and (max-width:320px){
+  .exh.item::after {
+      padding:0 .2rem 1px 0;
+  }
 }

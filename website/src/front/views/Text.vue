@@ -1,42 +1,54 @@
 <template lang="html">
   <div class="wrap">
-    <HeadNav></HeadNav>
     <div class="content">
-      这里显示内容
+      <h3 class="tittle">{{textInfo.tittle}}</h3>
+      <span>{{textInfo.authorInfo}}</span>
+      <article class="article" v-html="textInfo.content">
+
+      </article>
     </div>
-    <!-- <div v-html="content" class="content">
-    </div> -->
+
   </div>
 </template>
 
 <script>
-import {getTexts} from "@/api"
-import HeadNav from "@/front/components/head.vue"
+import {getText} from "@/api"
 import {mapState} from "vuex"
+import moment from "moment"
 export default {
   data(){
     return {
-      content_cn:"",
-      content_en:""
+      initialtextInfo:''
     }
   },
-  components:{
-    HeadNav
-  },
   computed:{
-    content(){
-      if(this.isEn){
-        return this.content_en
-      }else{
-        return this.content_cn
+    ...mapState(["isEn"]),
+    textInfo(){
+      const {tittle_cn,tittle_en,authorInfo_cn,authorInfo_en,content_en,content_cn} = this.initialtextInfo
+      let info = this.isEn?{
+        tittle:tittle_en,
+        authorInfo:authorInfo_en,
+        content:content_en
+      }:{
+        tittle:tittle_cn,
+        content:content_cn,
+        authorInfo:authorInfo_cn,
       }
-    },
-    ...mapState(["isEn"])
+      return info;
+    }
   },
-  created(){
-    getTexts().then(({data:{data}})=>{
+  async created(){
+    let {data:{status,data}} =   await getText(this.$route.params.id)
+    if(status===1){
+      /**
+       * [lang description]
+       * @type {String}
+       * TODO:
+       *    做一些数据的处理
+       */
+      this.initialtextInfo = data
       console.log(data)
-    })
+    }
   }
 }
 </script>
@@ -44,13 +56,37 @@ export default {
 <style lang="css" scoped>
 .wrap{
   height: 100%;
+  position: relative;
+
 }
-  .content{
-    padding-top: 4.8rem;
-    position: absolute;
-    top:calc(50% - 4.8rem);
-    left:50%;
-    transform: translate(-50%,-50%);
-    z-index:-99;
+.content{
+  position: absolute;
+  top:10rem;
+  width: 100%;
+  font-size: 20px;
+  text-align: left;
+  padding: 3rem;
+  font-family: "PingFangSC";
+}
+.content h3{
+  font-size: 20px;
+  margin-bottom: 3rem;
+}
+.content span{
+  font-size: 14px;
+}
+.content .article{
+  margin:3rem 0;
+  color:#5A5A5A !important;
+  text-indent: 2em;
+  line-height:3rem;
+}
+@media screen and (max-width:480px){
+  .content .tittle{
+    font-size: 16px !important;
   }
+  .content{
+    padding: 2rem;
+  }
+}
 </style>

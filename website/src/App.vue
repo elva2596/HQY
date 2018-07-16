@@ -1,11 +1,12 @@
 <template>
   <div id="app">
+    <!-- <HeadNav class="head" :opacityStyle="opacityStyle"></HeadNav> -->
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import {mapState} from "vuex"
+
 export default {
   name: 'app'
 }
@@ -17,7 +18,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  height: 100%;
+
 }
+
 </style>
