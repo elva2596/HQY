@@ -293,6 +293,9 @@ export default {
     /* justify-content: space-between; */
     margin-top: 4rem;
     font-family:"PingFangSC";
+    width:1210px;
+    margin-left: auto;
+    margin-right: auto;
     /* padding-bottom: 4rem;
      */
   }
@@ -428,6 +431,7 @@ export default {
     /* height:14rem; */
     /* min-height: 14rem; */
     padding: 1rem;
+    line-height:1.4em;
   }
   .img-desc .pra p{
     text-align: left;
@@ -522,19 +526,28 @@ export default {
     margin-top:5rem;
   }
   @media screen and (max-width:480px){
+    .loop-container .img-desc{
+ 
+    max-height: 10rem;
+  
+  }
     .list{
       padding-left:0rem;
       padding: 0;
+      width: 100vw;
+      /* transform: translateX(50%); */
       /* padding:0 2rem; */
     }
     .list li{
-      /* width: 50%; */
+      width: 50vw;
       text-align:center;
       margin-left: 0;
       margin-right: 0;
-      margin:3.6rem 0;
+      padding: 0;
+      margin-bottom: 3.2rem;
+      /* margin:3.6rem 0; */
       height: 16vh;
-      flex:0 0 50%;
+      /* flex:0 0 50%; */
     }
 
     .list li .info{

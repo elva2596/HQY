@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="toggle" >
-    <a class="cn" @click="toggleTo_cn" :class="{isEn}" :style="styleobjcn">中文</a>
-    <a class="en" @click="toggleTo_en" :class="{isEn:!isEn}" :style="styleobjen">English</a>
+    <a class="cn" @click="toggleTo_cn" :class="{isEn}" :style="styleobjcn">胡庆雁</a>
+    <a class="en" @click="toggleTo_en" :class="{isEn:!isEn}" :style="styleobjen">HUQINGYAN</a>
   </div>
 </template>
 

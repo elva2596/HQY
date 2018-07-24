@@ -539,6 +539,7 @@ img.ishover:hover{
     /* overflow: hidden; */
   }
 @media screen and (max-width:480px){
+    
   .content{
     padding:1rem;
     font-size: 16px;
