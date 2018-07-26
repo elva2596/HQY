@@ -162,7 +162,7 @@ ul{
   }
   /* 作品文字移动端样式 */
   .pra p{
-    margin-bottom: .4rem;
+    margin-bottom: 0;
     font-size: 14px !important;
   }
   .exh.item::after {

@@ -167,7 +167,7 @@ import Toggle from "./Toggle"
   }
   .toggle .cn{
     display: inline-block;
-    margin-right: 1rem;
+    /* margin-right: 1rem; */
   }
 
   .button{
@@ -219,6 +219,7 @@ import Toggle from "./Toggle"
     }
     .button{
       width: 1.8rem;
+      padding-top: 0.2rem;
     }
   }
 </style>

@@ -15,8 +15,8 @@
                 <div class="nav-head">
                   <!--  中英文切换-->
                   <div class="toggle index-toggle">
-                    <a class="cn" @click="toggleTo_cn" :class="{isEn}">中文</a>
-                    <a class="en" @click="toggleTo_en" :class="{isEn:!isEn}">English</a>
+                    <a class="cn link" @click="toggleTo_cn" :class="{isEn}">胡庆雁</a>
+                    <a class="en link" @click="toggleTo_en" :class="{isEn:!isEn}">HUQINGYAN</a>
                   </div>
                   <!-- <header>
                     <router-link to="/">{{author}}</router-link>
@@ -149,5 +149,8 @@ head组件中的css值
   width: 2rem;
   height: 2rem;
   /* background: red; */
+}
+.head .link {
+  font-size: 14px;
 }
 </style>
