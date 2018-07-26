@@ -1,6 +1,7 @@
 const WorkModel = require('../models/work');
 const createWork = (req,res)=>{
   const workInfo = req.body
+  console.log(workInfo)
   const instanceWork = new WorkModel(workInfo)
   instanceWork.save()
               .then(work=>{

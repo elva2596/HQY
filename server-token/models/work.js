@@ -28,7 +28,7 @@ const workSchema = new Schema({
     mat_en:String,
     size_cn:String,
     size_en:String,
-    coverUrl:String,
+    coverUrl:{},
     works:[
       {
         // name_cn:String,
@@ -36,7 +36,7 @@ const workSchema = new Schema({
         desc_cn:String,
         desc_en:String,
         // size:String,
-        imageUrl:String,
+        imageUrl:{},
         // width:String,
         // length:String,
         // height:String,

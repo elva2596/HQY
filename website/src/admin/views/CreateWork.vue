@@ -33,14 +33,14 @@ export default {
         title_cn:"",
         title_en:"",
         create_time:"",
-        coverUrl:"",
+        coverUrl:{},
         works:[
           {
             name_cn:"",
             name_en:"",
             desc_cn:"",
             desc_en:"",
-            imageUrl:'',
+            imageUrl:{},
             count:"一"
           },
         ]
@@ -69,7 +69,7 @@ export default {
             name_en:"",
             desc_cn:"",
             desc_en:"",
-            imageUrl:'',//最后过滤掉
+            imageUrl:{},//最后过滤掉
             count:""//最后过滤掉
           },
           rule,
@@ -118,7 +118,7 @@ export default {
       proArr.push(new Promise((resolve,rejected)=>{
         this.$refs["createWork"].$refs["coverForm"].validate(valid=>{
           if(valid){
-            if(this.workInfo.coverUrl!==""){
+            if(this.workInfo.coverUrl.mobilepictures!==""){
               resolve(true)
             }else{
               resolve(false)
@@ -141,6 +141,7 @@ export default {
                 if(arr.every(item=>item===true)){
                   this.disabled = true
                   this.loading = true
+                  console.log(this.workInfo)
                   // 在这发请求
                   createWork(this.workInfo).then(({data:{status}})=>{
                     if(status===1){
@@ -152,14 +153,14 @@ export default {
                             title_cn:"",
                             title_en:"",
                             create_time:"",
-                            coverUrl:"",
+                            coverUrl:{},
                             works:[
                               {
                                 name_cn:"",
                                 name_en:"",
                                 desc_cn:"",
                                 desc_en:"",
-                                imageUrl:'',
+                                imageUrl:{},
                                 count:"一"
                               },
                             ]

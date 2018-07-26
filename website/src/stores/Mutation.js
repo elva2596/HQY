@@ -175,6 +175,7 @@ export default {
   },
   [UPDATE_DETAIL_IMG](state,payload){
     const {index,url} = payload
+    // console.log(payload)
     state.workInfo.works[index].imageUrl = url
   },
   [UPDATE_EXH_DETAIL_IMG](state,payload){
@@ -184,6 +185,7 @@ export default {
   [UPDATE_DETAILR_COVER](state,payload){
     const {workInfo} = state
     const {url} = payload
+    // console.log(url)
     state.workInfo.coverUrl = url
   },
   [UPDATE_EXH_DETAILR_COVER](state,payload){

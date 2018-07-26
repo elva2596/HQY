@@ -34,14 +34,20 @@ export default {
     commit("USER_SINGNOUT")
     return true
   },
-  async getWorks({commit}){
+  async getWorks({commit},{isMobile}){
     let {data} = await getWorks()
+    console.log(data)
     let filterworks = data.data.map(item=>{
-       item.imgObj = {
-        src:item.coverUrl,
-        error: "http://abc.dailu.site/15e0e346278.jpg",
-        loading: "http://abc.dailu.site/15e105b23e5.jpg"
-      }
+      console.log(item)
+      item.imgObj = {
+       src:isMobile?item.coverUrl.mobilepictures.url:item.coverUrl.pcpictures.url,
+       error: "http://abc.dailu.site/15e0e346278.jpg",
+       loading: "http://abc.dailu.site/15e105b23e5.jpg"
+     }
+     item.coverInfo = isMobile?item.coverUrl.mobilepictures:item.coverUrl.pcpictures
+     // item.works.forEach((work)=>{
+     //   item.imageUrl = isMobile?work.imageUrl.mlunbo:work.imageUrl
+     // })
       item.visible = false
       return item
     })

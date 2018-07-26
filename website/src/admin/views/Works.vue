@@ -111,7 +111,7 @@ export default {
           name_en:"",
           desc_cn:"",
           desc_en:"",
-          imageUrl:'',//最后过滤掉
+          imageUrl:{},//最后过滤掉
           count:""//最后过滤掉
         },
         rule,
@@ -154,11 +154,12 @@ export default {
     "works-form":worksFrom
   },
   computed:{
-    ...mapState(["actionUrl","workInfo","rules","headRule","picLists"])
+    ...mapState(["workInfo","rules","headRule","picLists"])
   },
   created(){
-    this.$store.dispatch("getWorks")
-    console.log(picLists)
+    this.$store.dispatch("getWorks").then(()=>{
+      console.log(this.workInfo.coverUrl.mlunbo)
+    })
   }
 }
 </script>

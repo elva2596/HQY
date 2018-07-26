@@ -19,7 +19,7 @@
     <div class="bio-download">
       <UploadPdf
         :infoFileLists="bioIfo.fileList"
-        :actionUrl="actionUrl"
+        :actionUrl="uploadUrl"
         ></UploadPdf>
     </div>
     <div class="btn">
@@ -45,7 +45,10 @@ export default {
     }
   },
   computed:{
-    ...mapState(["actionUrl"])
+    ...mapState(["actionUrl"]),
+    uploadUrl(){
+      return `${this.actionUrl}?type=3`
+    }
   },
   methods:{
     submit(){

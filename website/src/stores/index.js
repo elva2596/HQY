@@ -29,20 +29,20 @@ const store = new Vuex.Store({
     pubLisits:[],
     textsLists:[],
     isCollapse:false,
-    actionUrl:"http://39.106.216.187:8089/api/admin/imgs",
+    actionUrl:"http://127.0.0.1:8089/api/admin/imgs",
     workInfo:{
       title_cn:"",
       title_en:"",
       create_time_cn:"",
       create_time_en:"",
-      coverUrl:"",
+      coverUrl:{},
       works:[
         {
           // name_cn:"",
           // name_en:"",
           desc_cn:"",
           desc_en:"",
-          imageUrl:'',
+          imageUrl:{},
           count:"一"
         },
       ]

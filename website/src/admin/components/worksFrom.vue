@@ -10,32 +10,16 @@
         <el-form-item label="英文标题" prop="title_en">
           <el-input v-model="workInfo.title_en"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="中文创作时间" prop="create_time_cn">
-          <el-input v-model="workInfo.create_time_cn"></el-input>
-        </el-form-item>
-        <el-form-item label="英文创作时间" prop="create_time_en">
-          <el-input v-model="workInfo.create_time_en"></el-input>
-        </el-form-item>
-        <el-form-item label="中文材质" prop="mat_cn">
-          <el-input v-model="workInfo.mat_cn"></el-input>
-        </el-form-item>
-        <el-form-item label="英文材质" prop="mat_en">
-          <el-input v-model="workInfo.mat_en"></el-input>
-        </el-form-item>
-        <el-form-item label="中文尺寸" prop="size_cn">
-          <el-input v-model="workInfo.size_cn"></el-input>
-        </el-form-item>
-        <el-form-item label="英文尺寸" prop="size_en">
-          <el-input v-model="workInfo.size_en"></el-input>
-        </el-form-item> -->
         <el-form-item label="上传封面" required>
           <el-upload
-            :action="actionUrl"
+            :action="uploadUrl"
             list-type="picture"
             :show-file-list="false"
             :on-success="handleCoverSuccess"
             class="avatar-uploader">
-            <img v-if="workInfo.coverUrl" :src="workInfo.coverUrl" class="avatar">
+            <img v-if="workInfo.coverUrl.pcpictures"
+                  :src="workInfo.coverUrl.mobilepictures.url"
+                  class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -47,13 +31,15 @@
         <el-form :ref="'form'+index" label-width="140px" class="work-form" :model="item" :rules="rules[index]">
           <el-form-item label="上传详情作品" required>
             <el-upload
-              :action="actionUrl"
+              :action="uploadUrl"
               list-type="picture"
               :show-file-list="false"
               :on-success="handleSuccess"
               class="avatar-uploader"
               :objectBind="index">
-              <img v-if="item.imageUrl" :src="item.imageUrl" class="avatar">
+              <img v-if="item.imageUrl.mobilepictures"
+                    :src="item.imageUrl.mobilepictures.url"
+                    class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -96,7 +82,10 @@ export default {
       };
     },
     computed:{
-      ...mapState(["actionUrl","workInfo","rules","headRule"])
+      ...mapState(["actionUrl","workInfo","rules","headRule"]),
+      uploadUrl(){
+        return `${this.actionUrl}?type=0`
+      }
     },
     methods: {
       handleSuccess(response, file, fileList,objectBind){
@@ -157,8 +146,8 @@ export default {
    border-radius: 6px;
  }
  .avatar {
-   width: 178px;
-   height: 178px;
+   /* width: 178px;
+   height: 178px; */
    display: block;
    border-radius: 6px;
  }

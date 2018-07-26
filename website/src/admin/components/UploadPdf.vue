@@ -28,7 +28,6 @@ export default {
      this.infoFileLists.push({name:file.name,url:response.data})
    },
    beforeUpload(file){
-     console.log(this.infoFileLists)
      if(this.infoFileLists.length>=2){
        this.$message({
          message:"最多上传两个文件",

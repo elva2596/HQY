@@ -4,19 +4,7 @@
       <li v-for="(list,index) in worksArr"
             @click="onclick(list.id)"
         >
-          <!-- <div class="info" v-if="!ishover&&!list.show">
-            <span class="order"
 
-                  >
-                  {{index+1|formatNumber}}
-            </span >
-            <span href="#"class="title">
-                  {{list.tittle}}
-            </span>
-            <span class="time" v-if="list.time">{{list.time}}</span>
-          </div> -->
-        <!-- <transition name="fade"> -->
-        
           <div class="img">
             <img  v-lazy="list.imgSrc" alt="" ref="childs"
             >
@@ -115,7 +103,7 @@ export default {
       if(this.isEn){
         return this.workInfo.map(item=>({
           id:item._id,
-          imgSrc:item.coverUrl,
+          imgSrc:item.coverInfo.url,
           time:item.create_time_en,
           tittle:item.title_en,
           show:item.show
@@ -123,7 +111,7 @@ export default {
       }else{
         return this.workInfo.map(item=>({
           id:item._id,
-          imgSrc:item.coverUrl,
+          imgSrc:item.coverInfo.url,
           time:item.create_time_cn,
           tittle:item.title_cn,
           show:item.show
@@ -134,14 +122,14 @@ export default {
       if(this.isEn){
         return this.imgsArr.map(item=>({
           id:item._id,
-          imgSrc:item.imageUrl,
+          imgSrc:item.imageInfo.url,
           text:item.desc_en,
           show:item.show
         }))
       }else{
         return this.imgsArr.map(item=>({
           id:item._id,
-          imgSrc:item.imageUrl,
+          imgSrc:item.imageInfo.url,
           text:item.desc_cn,
           show:item.show
         }))
@@ -189,10 +177,10 @@ export default {
     },
     onclick(id){
       getOneWork(id).then(({data:{data:{works}}})=>{
-        console.log(works)
         this.imgsArr = works.map(item=>({
           ...item,
-          show:true
+          show:true,
+          imageInfo:isMobile()?item.imageUrl.mlunbo:item.imageUrl.pclunbo
         }))
         // console.log(works)
       })
@@ -221,7 +209,7 @@ export default {
         item.show = true
       })
     }
-    this.$store.dispatch("getWorks").then(re=>{
+    this.$store.dispatch("getWorks",{isMobile:isMobile()}).then(re=>{
       console.log(re)
       this.workInfo = re.reverse().map(item=>({
         ...item,
@@ -303,19 +291,20 @@ export default {
   }
   .list li {
     width:20%;
-    height: 20rem;
+    height: 22rem;
     padding: 1rem;
-    padding-top: 2rem;
+    padding-top: 1.4rem;
+    padding-bottom: .8rem;
     /* background: red; */
     /* margin-right: 20px; */
     margin-left: 2.5%;
     margin-right:2.5%;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     float:left;
     cursor: pointer;
     /* text-align: left; */
     position: relative;
-      /* box-shadow:1px 1px 5px #333; */
+      box-shadow:1px 1px 5px #333;
       /* border-radius: 5px; */
     /* flex:0 1 20%; */
     /* margin:3rem 0; */
@@ -348,7 +337,6 @@ export default {
     bottom:.2rem;
     font-size: 14px;
     color:rgba(166,166,166,1);
-
   }
   .list li .authorInfo{
     bottom:.2rem;
@@ -366,6 +354,7 @@ export default {
     white-space: nowrap;
     padding-right: 5rem;
     padding-left: 5rem;
+    /* margin-bottom: .4rem; */
   }
   .list li .img{
     height: 100%;
