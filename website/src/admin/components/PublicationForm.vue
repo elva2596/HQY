@@ -16,7 +16,7 @@
     <div class="cover">
       <h4>添加出版物封面</h4>
       <el-upload
-        :action="actionUrl"
+        :action="uploadUrl"
         list-type="picture"
         :show-file-list="false"
         :on-success="hadnleCoverSuccess"
@@ -60,7 +60,10 @@ export default {
     }
   },
   computed:{
-      ...mapState(["pubInfo","actionUrl"])
+      ...mapState(["pubInfo","actionUrl"]),
+      uploadUrl(){
+        return `${this.actionUrl}?type=2`
+      }
   },
   methods: {
     hadnleCoverSuccess(response,file,fileList){

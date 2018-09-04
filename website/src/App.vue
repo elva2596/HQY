@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <HeadNav class="head" :opacityStyle="opacityStyle"></HeadNav> -->
     <router-view></router-view>
   </div>
 </template>
@@ -18,7 +17,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-
 }
 
 </style>

@@ -141,7 +141,7 @@ export default {
                 if(arr.every(item=>item===true)){
                   this.disabled = true
                   this.loading = true
-                  console.log(this.workInfo)
+                  // console.log(this.workInfo)
                   // 在这发请求
                   createWork(this.workInfo).then(({data:{status}})=>{
                     if(status===1){

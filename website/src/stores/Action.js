@@ -34,25 +34,20 @@ export default {
     commit("USER_SINGNOUT")
     return true
   },
-  async getWorks({commit},{isMobile}){
-    let {data} = await getWorks()
+  async getWorks({commit},{isMobile,page}){
+    let {data} = await getWorks(page)
     console.log(data)
     let filterworks = data.data.map(item=>{
-      console.log(item)
       item.imgObj = {
        src:isMobile?item.coverUrl.mobilepictures.url:item.coverUrl.pcpictures.url,
        error: "http://abc.dailu.site/15e0e346278.jpg",
        loading: "http://abc.dailu.site/15e105b23e5.jpg"
      }
      item.coverInfo = isMobile?item.coverUrl.mobilepictures:item.coverUrl.pcpictures
-     // item.works.forEach((work)=>{
-     //   item.imageUrl = isMobile?work.imageUrl.mlunbo:work.imageUrl
-     // })
+
       item.visible = false
       return item
     })
-
-    console.log(filterworks)
     commit("GET_WORKS",filterworks)
     return filterworks
   },
@@ -105,18 +100,22 @@ export default {
     await updateText(textInfo)
     commit("UPDATE_TEXTS",payload)
   },
-  async getExhs({commit}){
+  async getExhs({commit},{isMobile}){
+    // console.log(isMobile)
     let {data} = await getExhibitions()
+    console.log(data)
     let filterexhs = data.data.map(item=>{
        item.imgObj = {
-        src:item.coverUrl,
+        src:isMobile?item.coverUrl.pcexh_c.url:item.coverUrl.mexh_c.url,
         error: "http://abc.dailu.site/15e0e346278.jpg",
         loading: "http://abc.dailu.site/15e105b23e5.jpg"
       }
       item.visible = false
       return item
     })
+
     commit("GET_EXHS",filterexhs)
+    return filterexhs
   },
   async getAllNews({commit}){
     try{

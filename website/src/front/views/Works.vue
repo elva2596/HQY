@@ -1,18 +1,19 @@
 <template lang="html">
   <div class="wrap">
-    <ul class="list">
-      <li v-for="(list,index) in worksArr"
-            @click="onclick(list.id)"
-        >
+      <vue-waterfall-easy
+        :imgsArr="worksArr"
+        :linkRange="'custom'"
+        :maxCols="5"
+         @click="onclick"
+         :loadingDotCount="0"
+        @scrollReachBottom="getData"
+        :mobileGap="12"
+      >
+      <div class="img-info" slot-scope="props">
+        <p class="some-info works-tittle img-tittle">{{props.value.tittle}}</p>
+      </div>
+    </vue-waterfall-easy>
 
-          <div class="img">
-            <img  v-lazy="list.imgSrc" alt="" ref="childs"
-            >
-            <span class="title img-tittle" >{{list.tittle}}</span>
-          </div>
-        <!-- </transition> -->
-      </li>
-    </ul>
     <transition name="fade">
       <div class="loop-container" v-if="isloop">
         <transition name="slide-fade-close">
@@ -23,7 +24,6 @@
               :toggleTo_en="toggleTo_en"
               :toggleTo_cn="toggleTo_cn"
               :isEn="isEn"
-
             ></Toggle>
             <span class="close" @click="onclose"></span>
           </div>
@@ -31,11 +31,8 @@
           <swiper :options="swiperOption" class="slide-container loop" >
             <swiper-slide class="item item2" v-for="(list,index) in imgsArrs" :key="list.id">
               <div  @mouseover="imgMouseover(index)" @mouseout="imgmMouseout(index)" class="swiper-item" >
-                <img :src="list.imgSrc" alt="" @touchend="handletouch(index)">
+                <img :src="list.src" alt="" @touchend="handletouch(index)">
                 <transition name="slide-fade">
-                  <!-- <VueScrollbar class="img-desc"  ref="Scrollbar" v-if="list.show&&text">
-                    <div class="pra-exh" v-html="text"></div>
-                  </VueScrollbar> -->
                 <VueScrollbar class="img-desc"  ref="Scrollbar" v-if="list.show&&list.text">
                   <div class="pra" v-html="list.text"></div>
                 </VueScrollbar>
@@ -51,182 +48,211 @@
 </template>
 
 <script>
-import VueScrollbar from 'vue2-scrollbar';
-import Toggle from "@/front/components/Toggle"
-import List from "@/front/components/List.vue"
-import imgSrc1 from "../../../static/images/bgh2.jpg"
-import imgSrc from "../../../static/images/bg1.jpg"
-import utils from "@/utils"
-import {mapState,mapMutations} from "vuex"
-const {isMobile}  = utils
-import "swiper/dist/css/swiper.css"
-import {swiper,swiperSlide} from "vue-awesome-swiper"
-import {getOneWork} from "@/api"
-export default {
-  data(){
-    const _this = this
-    return {
-      workInfo:[],
-      show:false,
-      imgsArr:[
-      ],
-      total:2,
-      loopEleShow:true,
-      index:1,
-      swiperOption: {
-            // effect: 'fade',
-            slidesPerView: 1,
-            spaceBetween: 30,
-            // loop: true,
-            pagination: {
-              el: '.swiper-pagination',
-              clickable: true
-            },
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev'
-            },
-            on:{
-              slideChange:function (){
-                _this.index = this.activeIndex+1
-                console.log(this.activeIndex)
+  import VueScrollbar from 'vue2-scrollbar';
+  import Toggle from "@/front/components/Toggle"
+  import List from "@/front/components/List.vue"
+  import utils from "@/utils"
+  import {mapState,mapMutations} from "vuex"
+  const {isMobile}  = utils
+  import "swiper/dist/css/swiper.css"
+  import {swiper,swiperSlide} from "vue-awesome-swiper"
+  import vueWaterfallEasy from 'vue-waterfall-easy'
+  import {getOneWork} from "@/api"
+  export default {
+    data(){
+      const _this = this
+      return {
+        page:0,
+        workInfo:[],
+        show:false,
+        imgsArr:[
+        ],
+        total:2,
+        loopEleShow:true,
+        index:1,
+        swiperOption: {
+              // effect: 'fade',
+              slidesPerView: 1,
+              spaceBetween: 30,
+              // loop: true,
+              pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+              },
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+              },
+              on:{
+                slideChange:function (){
+                  _this.index = this.activeIndex+1
+                  console.log(this.activeIndex)
+                }
               }
-            }
-          },
-        ishover:false
+            },
+          ishover:false
+        }
+    },
+    computed:{
+      ...mapState(["isEn","isloop"]),
+      worksArr(){
+        // const
+        if(this.isEn){
+          return this.workInfo.map(item=>({
+            id:item._id,
+            src:item.coverInfo.url,
+            time:item.create_time_en,
+            tittle:item.title_en,
+            show:item.show
+          }))
+        }else{
+          return this.workInfo.map(item=>({
+            id:item._id,
+            src:item.coverInfo.url,
+            time:item.create_time_cn,
+            tittle:item.title_cn,
+            show:item.show
+          }))
+        }
+      },
+      imgsArrs(){
+        if(this.isEn){
+          return this.imgsArr.map(item=>({
+            id:item._id,
+            src:item.imageInfo.url,
+            text:item.desc_en,
+            show:item.show
+          }))
+        }else{
+          return this.imgsArr.map(item=>({
+            id:item._id,
+            src:item.imageInfo.url,
+            text:item.desc_cn,
+            show:item.show
+          }))
+        }
       }
-  },
-  computed:{
-    ...mapState(["isEn","isloop"]),
-    worksArr(){
-      // const
-      if(this.isEn){
-        return this.workInfo.map(item=>({
-          id:item._id,
-          imgSrc:item.coverInfo.url,
-          time:item.create_time_en,
-          tittle:item.title_en,
-          show:item.show
-        }))
-      }else{
-        return this.workInfo.map(item=>({
-          id:item._id,
-          imgSrc:item.coverInfo.url,
-          time:item.create_time_cn,
-          tittle:item.title_cn,
-          show:item.show
-        }))
+    },
+    methods:{
+      getData() {
+        const page = this.page
+      // In the real environment,the backend will return a new image array based on the parameter group.
+      // Here I simulate it with a stunned json file.
+      this.$store.dispatch("getWorks",{isMobile:isMobile(),page}).then(re=>{
+        if(re&&re.length>0){
+          this.workInfo = this.workInfo.concat(re.reverse())
+          this.page++
+        }
+
+      })
+    },
+      toggleTo_cn(){
+        this.$store.commit("ISLOCAL",false)
+      },
+      toggleTo_en(){
+        this.$store.commit("ISLOCAL",true)
+      },
+      handletouch(index){
+        this.imgsArr[index].show = !this.imgsArr[index].show
+        this.show = !this.show
+      },
+      isMobile,
+      onclose(){
+        this.$store.commit("CHANGE_LOOP")
+      },
+      onmouseover(index){
+        if(isMobile()){
+          return
+        }
+        this.workInfo[index].show = true
+      },
+      imgMouseover(index){
+        if(isMobile()){
+          return
+        }
+        this.imgsArr[index].show = true
+      },
+      imgmMouseout(index){
+        if(isMobile()){
+          return
+        }
+        this.imgsArr[index].show = false
+      },
+      onmouseout(index){
+        if(isMobile()){
+          return
+        }
+        this.workInfo[index].show = false
+      },
+      onclick(event, { index, value }){
+        getOneWork(value.id).then(({data:{data:{works}}})=>{
+          this.imgsArr = works.map(item=>({
+            ...item,
+            show:true,
+            imageInfo:isMobile()?item.imageUrl.mlunbo:item.imageUrl.pclunbo
+          }))
+          // console.log(works)
+        })
+        this.$store.commit("CHANGE_LOOP")
       }
     },
-    imgsArrs(){
-      if(this.isEn){
-        return this.imgsArr.map(item=>({
-          id:item._id,
-          imgSrc:item.imageInfo.url,
-          text:item.desc_en,
-          show:item.show
-        }))
-      }else{
-        return this.imgsArr.map(item=>({
-          id:item._id,
-          imgSrc:item.imageInfo.url,
-          text:item.desc_cn,
-          show:item.show
-        }))
+    components:{
+      List,
+      swiper,
+      swiperSlide,
+      VueScrollbar,
+      Toggle,
+      vueWaterfallEasy
+    },
+    filters:{
+      formatNumber(number){
+        if(number<10){
+          return "0"+number
+        }else{
+          return number
+        }
       }
-    }
-  },
-  methods:{
-    toggleTo_cn(){
-      this.$store.commit("ISLOCAL",false)
     },
-    toggleTo_en(){
-      this.$store.commit("ISLOCAL",true)
-    },
-    handletouch(index){
-      this.imgsArr[index].show = !this.imgsArr[index].show
-      this.show = !this.show
-    },
-    isMobile,
-    onclose(){
-      this.$store.commit("CHANGE_LOOP")
-    },
-    onmouseover(index){
+    created(){
+      const page = this.page
       if(isMobile()){
-        return
+        this.worksArr.forEach(item=>{
+          item.show = true
+        })
       }
-      this.workInfo[index].show = true
-    },
-    imgMouseover(index){
-      if(isMobile()){
-        return
-      }
-      this.imgsArr[index].show = true
-    },
-    imgmMouseout(index){
-      if(isMobile()){
-        return
-      }
-      this.imgsArr[index].show = false
-    },
-    onmouseout(index){
-      if(isMobile()){
-        return
-      }
-      this.workInfo[index].show = false
-    },
-    onclick(id){
-      getOneWork(id).then(({data:{data:{works}}})=>{
-        this.imgsArr = works.map(item=>({
+      this.$store.dispatch("getWorks",{isMobile:isMobile(),page}).then(re=>{
+        this.workInfo = re.reverse().map(item=>({
           ...item,
-          show:true,
-          imageInfo:isMobile()?item.imageUrl.mlunbo:item.imageUrl.pclunbo
+          show:false
         }))
-        // console.log(works)
+        this.page++
       })
-      this.$store.commit("CHANGE_LOOP")
-    }
-  },
-  components:{
-    List,
-    swiper,
-    swiperSlide,
-    VueScrollbar,
-    Toggle
-  },
-  filters:{
-    formatNumber(number){
-      if(number<10){
-        return "0"+number
-      }else{
-        return number
+    },
+    mounted(){
+      if(isMobile()){
+        this.ishover = true
       }
     }
-  },
-  created(){
-    if(isMobile()){
-      this.worksArr.forEach(item=>{
-        item.show = true
-      })
-    }
-    this.$store.dispatch("getWorks",{isMobile:isMobile()}).then(re=>{
-      console.log(re)
-      this.workInfo = re.reverse().map(item=>({
-        ...item,
-        show:false
-      }))
-    })
-  },
-  mounted(){
-    if(isMobile()){
-      this.ishover = true
-    }
-    console.log(this.$refs)
   }
-}
 </script>
 
 <style lang="css" scoped>
+.wrap{
+  width: 100%;
+  position: absolute;
+  top:6rem;
+  bottom:0;
+}
+  p.some-info{
+    font-size: 14px;
+    padding:.6rem 0;
+    color:#000000;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    padding-right: 5rem;
+    padding-left: 5rem;
+  }
 .slide-fade-enter-active {
   transition: all .5s ease ;
 }
@@ -258,129 +284,13 @@ export default {
   background-position:center;
 
 }
-.wrap{
-  position: relative;
-}
-.main{
-  position: absolute;
-  top:6rem;
-  width: 100%;
-}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active 在低于版本 2.1.8 中 */ {
   opacity: 0;
 }
-  .list{
-    /* display: flex;
-    flex-wrap: wrap; */
-    /* width: 100%; */
-    /* padding-left: 3rem;
-    padding-right: 3rem; */
-    /* justify-content: space-between; */
-    margin-top: 4rem;
-    font-family:"PingFangSC";
-    width:1210px;
-    margin-left: auto;
-    margin-right: auto;
-    /* padding-bottom: 4rem;
-     */
-  }
-  .list::after{
-    content:"";
-    display: block;
-    clear:both;
-  }
-  .list li {
-    width:20%;
-    height: 22rem;
-    padding: 1rem;
-    padding-top: 1.4rem;
-    padding-bottom: .8rem;
-    /* background: red; */
-    /* margin-right: 20px; */
-    margin-left: 2.5%;
-    margin-right:2.5%;
-    margin-bottom: 3rem;
-    float:left;
-    cursor: pointer;
-    /* text-align: left; */
-    position: relative;
-      box-shadow:1px 1px 5px #333;
-      /* border-radius: 5px; */
-    /* flex:0 1 20%; */
-    /* margin:3rem 0; */
-    /* border:1px solid silver; */
-  }
-  .list li:hover{
-    opacity: 0.6;
-  }
-  .list li .info{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    /* pad */
-  }
-  .list li span,
-  .list li a {
-    display:block;
-    color:rgba(166,166,166,1);
-  }
-  .list li .order{
-    display:block;
-    font-size: 14px;
-    color:#000000;
-
-  }
-  .list li .time{
-    bottom:.2rem;
-    font-size: 14px;
-    color:rgba(166,166,166,1);
-  }
-  .list li .authorInfo{
-    bottom:.2rem;
-    font-size: 14px;
-    color:rgba(166,166,166,1);
-
-  }
-  .list li .title{
-    display:block;
-    width: 100%;
-    font-size: 16px;
-    color:#000000;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
-    padding-right: 5rem;
-    padding-left: 5rem;
-    /* margin-bottom: .4rem; */
-  }
-  .list li .img{
-    height: 100%;
-    width: 100%;
-    /* cursor: pointer; */
-  }
-  .list li img{
-     height:86%;
-     max-width: 100%;
-     display: inline-block;
-    cursor: pointer;
-  }
-  .list li .ishover{
-    cursor: pointer;
-  }
-  .list li .ishover .order,
-  .list li .ishover .title,
-  .list li .ishover .time{
-    color:white;
-  }
-  .img-tittle{
-    /* margin-top: 1rem; */
-  }
   .loop-container{
     position: fixed;
     background:black;
@@ -401,6 +311,9 @@ export default {
     display: block;
     max-height: 100%;
     cursor: pointer;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+
   }
   .loop-container .img-desc{
     position:absolute;
@@ -426,15 +339,11 @@ export default {
     text-align: left;
     color:white !important;
   }
-  .index{
-    position: absolute;
-    left:0;
-    top:1.6rem;
-    font-size: 18px;
-    text-align: center;
-    color:white;
-    width:100%;
-  }
+
+  /**
+   * [轮播图中的切换按钮]
+   * @type {[type]}
+   */
   .toggle{
     position: absolute;
     top:1rem;
@@ -442,8 +351,13 @@ export default {
     cursor: pointer;
     z-index:999;
     color:white;
-    font-size: 16px;
+    font-size: 14px;
   }
+
+  /**
+   * [右上角关闭按钮]
+   * @type {[type]}
+   */
   .close{
     position: absolute;
     right:2rem;
@@ -469,6 +383,11 @@ export default {
   .close::after{
     transform: rotate(-45deg);
   }
+
+  /**
+   * [轮播条目]
+   * @type {[type]}
+   */
   .swiper-button-prev,
   .swiper-button-next{
     outline: none;
@@ -511,59 +430,25 @@ export default {
   .swiper-item{
     height:94%;
     position:relative;
-    overflow: hidden;
-    margin-top:5rem;
   }
+
+
   @media screen and (max-width:480px){
     .loop-container .img-desc{
- 
-    max-height: 10rem;
-  
-  }
-    .list{
-      padding-left:0rem;
-      padding: 0;
-      width: 100vw;
-      /* transform: translateX(50%); */
-      /* padding:0 2rem; */
-    }
-    .list li{
-      width: 50vw;
-      text-align:center;
-      margin-left: 0;
-      margin-right: 0;
-      padding: 0;
-      margin-bottom: 3.2rem;
-      /* margin:3.6rem 0; */
-      height: 16vh;
-      /* flex:0 0 50%; */
-    }
 
-    .list li .info{
-      text-align: left;
-    }
-    .list li .img-tittle{
-      font-size: 14px;
-      margin-top: 0;
-      padding:0 2rem;
+    max-height: 10rem;
+
+  }
+    p.some-info{
+      padding-right: 3rem;
+      padding-left: 3rem;
     }
     .swiper-item{
       width: 100%;
-      /* height: 80%; */
-      /* bottom:0; */
       position:static;
-      /* padding-top: 5rem; */
-      /* margin-top: 5rem; */
     }
     .loop img{
-      max-width: 100%;
-      margin:0 auto;
-      position: absolute;
-      margin-top: 3rem;
-      top:50%;
-      /* left:50%; */
-      /* transform: translate(-50%,-50%); */
-      transform: translateY(-50%);
+      width: 100%;
     }
     .swiper-button-prev,
     .swiper-button-next{
@@ -573,9 +458,6 @@ export default {
     .close::after{
       width: 1.6rem;
       right: -.6rem;
-    }
-    .list li img{
-      max-width: 100%;
     }
   }
 </style>

@@ -15,8 +15,8 @@
                 <div class="nav-head">
                   <!--  中英文切换-->
                   <div class="toggle index-toggle">
-                    <a class="cn link" @click="toggleTo_cn" :class="{isEn}">胡庆雁</a>
-                    <a class="en link" @click="toggleTo_en" :class="{isEn:!isEn}">HUQINGYAN</a>
+                    <a class="cn link" @click="toggleTo_cn" :class="{isEn}">曹雨</a>
+                    <a class="en link" @click="toggleTo_en" :class="{isEn:!isEn}">CAOYU</a>
                   </div>
                   <!-- <header>
                     <router-link to="/">{{author}}</router-link>

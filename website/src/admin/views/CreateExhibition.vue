@@ -36,12 +36,12 @@ export default {
         place_en:"",
         create_time_cn:"",
         create_time_en:"",
-        coverUrl:"",
+        coverUrl:{},
         desc_cn:"",
         desc_en:"",
         exhs:[
           {
-            imageUrl:'',
+            imageUrl:{},
             count:"一"
           },
         ]
@@ -52,7 +52,7 @@ export default {
         let count = utils.changeNumber(this.exhInfo.exhs.length+1)
         const data = {
           info:{
-            imageUrl:'',//最后过滤掉
+            imageUrl:{},//最后过滤掉
             count:""//最后过滤掉
           },
           count
@@ -123,6 +123,7 @@ export default {
                 if(arr.every(item=>item===true)){
                   this.disabled = true
                   this.loading = true
+                  console.log(this.exhInfo)
                   // 在这发请求
                   createExh(this.exhInfo).then(({data:{status}})=>{
                     if(status===1){
@@ -137,12 +138,12 @@ export default {
                             place_en:"",
                             create_time_cn:"",
                             create_time_en:"",
-                            coverUrl:"",
+                            coverUrl:{},
                             desc_cn:"",
                             desc_en:"",
                             exhs:[
                               {
-                                imageUrl:'',
+                                imageUrl:{},
                                 count:"一"
                               },
                             ]

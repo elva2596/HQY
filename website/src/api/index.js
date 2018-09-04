@@ -1,12 +1,11 @@
 import axios from "axios";
 const Auth_axios = axios.create();
 const NoAuth_axios = axios.create();
-const url = "http://127.0.0.1:8089"
 const reg = (data)=>{ return NoAuth_axios.post("/api/register",data) }
 const userLogin = (data)=>{ return NoAuth_axios.post("/api/login",data) }
 const getUser = (data)=>{ return NoAuth_axios.get("/api/getUser",{ params:data }) }
 const createWork = (data)=>{ return Auth_axios.post("/api/work",data) }
-const getWorks = ()=>{ return Auth_axios.get("/api/work") }
+const getWorks = (page)=>{ return Auth_axios.get(`/api/work?page=${page}`) }
 const deleteWork = (data)=>{ return Auth_axios.delete("/api/work/",{ params:{id:data} })}
 const editWork = (id)=>{ return Auth_axios.get(`/api/work/${id}`)}
 const getOneWork = (id)=>{ return Auth_axios.get(`/api/work/${id}`)}

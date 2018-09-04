@@ -1,8 +1,10 @@
 const ExhModel = require('../models/exhibition');
 const createExhibition = (req,res)=>{
+  console.log(req.body)
   const instanceExh = new ExhModel(req.body)
   instanceExh.save()
               .then(work=>{
+                console.log(work)
                 res.send({
                   status:1,
                   msg:"success",

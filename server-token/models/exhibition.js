@@ -33,14 +33,14 @@ const exhSchema = new Schema({
   tittle_en:String,
   place_cn:String,
   place_en:String,
-  coverUrl:String,
+  coverUrl:{},
   create_time_cn:String,
   create_time_en:String,
   desc_cn:String,
   desc_en:String,
   exhs:[
     {
-      imageUrl:String,
+      imageUrl:{},
       count:String
     },
   ]

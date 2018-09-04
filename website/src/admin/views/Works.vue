@@ -29,6 +29,7 @@
 import {mapActions,mapState} from "vuex"
 import utils from "@/utils"
 import worksFrom from "@/admin/components/worksFrom.vue"
+const {isMobile}  = utils
 var origin = '';
 export default {
   data(){
@@ -60,7 +61,7 @@ export default {
   methods:{
     update(){
       this.disabled = true
-      if(this.workInfo.works.every(item=>{return item.name_cn!==''})){
+      // if(this.workInfo.works.every(item=>{return item.name_cn!==''})){
         this.$store.dispatch("updateWork",this.workInfo)
                     .then(()=>{
                       this.$message({
@@ -72,16 +73,9 @@ export default {
                         }
                       })
                     })
-      }else{
-        this.$message({
-          type: 'error',
-          message: '请填写完必要的表单字段!',
-          onClose:()=>{
-            // this.visible = false
-            this.disabled = false
-          }
-        });
-      }
+      // }else{
+  
+      // }
     },
     cancel(){
       this.visible = false
@@ -157,9 +151,7 @@ export default {
     ...mapState(["workInfo","rules","headRule","picLists"])
   },
   created(){
-    this.$store.dispatch("getWorks").then(()=>{
-      console.log(this.workInfo.coverUrl.mlunbo)
-    })
+    this.$store.dispatch("getWorks",{isMobile:isMobile()})
   }
 }
 </script>

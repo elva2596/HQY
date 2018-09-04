@@ -20,22 +20,48 @@ const createWork = (req,res)=>{
               })
 }
 const getWorks = (req,res)=>{
-  WorkModel.find({},{works:0})
-            .exec()
-            .then(works=>{
-              res.send({
-                status:1,
-                msg:"success",
-                data:works
+  const page = req.query.page
+  if(page==="undefined"){
+    WorkModel.find({},{works:0})
+              // .skip(page*5)
+              // .limit(5)
+              .exec()
+              .then(works=>{
+                res.send({
+                  status:1,
+                  msg:"success",
+                  data:works
+                })
               })
-            })
-            .catch(err=>{
-              res.send({
-                status:-1,
-                msg:"err",
-                data:err.message.toString()
+              .catch(err=>{
+                res.send({
+                  status:-1,
+                  msg:"err",
+                  data:err.message.toString()
+                })
               })
-            })
+        // return
+  }else{
+    WorkModel.find({},{works:0})
+              .skip(page*10)
+              .limit(10)
+              .exec()
+              .then(works=>{
+                res.send({
+                  status:1,
+                  msg:"success",
+                  data:works
+                })
+              })
+              .catch(err=>{
+                res.send({
+                  status:-1,
+                  msg:"err",
+                  data:err.message.toString()
+                })
+              })
+  }
+
 }
 
 const deleteWork = (req,res)=>{

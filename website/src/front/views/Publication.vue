@@ -77,7 +77,7 @@ export default {
 }
 .content{
   position: absolute;
-  top:10rem;
+  top:14rem;
   width: 100%;
   padding: 0 3rem;
   font-size: 24px;
@@ -121,7 +121,7 @@ export default {
   .content{
     padding:1rem;
     font-size: 16px;
-    top:8rem;
+    top:12rem;
   }
   .list-item{
     flex-direction: column;

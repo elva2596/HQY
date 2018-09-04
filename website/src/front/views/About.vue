@@ -82,13 +82,13 @@ export default {
   @media screen and (max-width:480px){
     .about-content{
       left:2rem;
-      top:10rem;
+      top:14rem;
     }
     .bio-download:hover{
       opacity:1;
     }
     .bio-download{
-      top:10.4rem;
+      top:14.4rem;
 
       left:10rem;
 

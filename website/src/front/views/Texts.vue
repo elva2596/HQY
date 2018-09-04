@@ -112,13 +112,18 @@ export default {
 
 <style lang="css" scoped>
   .wrap{
-    /* height: 100%; */
     position: relative;
   }
   .main{
     position: absolute;
     top:5rem;
-    width: 100%;
-      /* padding: 2rem; */
+    width:1210px;
+    left:50%;
+    transform: translateX(-50%);
+  }
+  @media screen and (max-width:480px){
+    .main{
+      width: 100%;
+    }
   }
 </style>

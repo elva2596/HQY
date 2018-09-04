@@ -24,12 +24,14 @@
         </el-form-item>
         <el-form-item label="上传封面">
           <el-upload
-            :action="actionUrl"
+            :action="uploadUrl"
             list-type="picture"
             :show-file-list="false"
             :on-success="handleCoverSuccess"
             class="avatar-uploader">
-            <img v-if="exhInfo.coverUrl" :src="exhInfo.coverUrl" class="avatar">
+            <img v-if="exhInfo.coverUrl.pcexh_c"
+                :src="exhInfo.coverUrl.pcexh_c.url"
+                class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -59,13 +61,15 @@
         <el-form :ref="'form'+index" label-width="140px" class="work-form" :model="item" >
           <el-form-item label="上传展览详情" required>
             <el-upload
-              :action="actionUrl"
+              :action="uploadUrl"
               list-type="picture"
               :show-file-list="false"
               :on-success="handleSuccess"
               class="avatar-uploader"
               :objectBind="index">
-              <img v-if="item.imageUrl" :src="item.imageUrl" class="avatar">
+              <img v-if="item.imageUrl.pcexh_c"
+              :src="item.imageUrl.pcexh_c.url"
+              class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -90,8 +94,12 @@ export default {
       };
     },
     computed:{
-      ...mapState(["actionUrl","exhInfo","rules","headRule"])
+      ...mapState(["actionUrl","exhInfo","rules","headRule"]),
+      uploadUrl(){
+        return `${this.actionUrl}?type=1`
+      },
     },
+
     methods: {
       handleSuccess(response, file, fileList,objectBind){
         /**

@@ -89,8 +89,25 @@ ul{
   font-size: 20px !important;
   /* color:red; */
 }
-
-
+.swiper-item img{
+  
+}
+.vue-waterfall-easy-container .vue-waterfall-easy a.img-wraper > img:hover{
+  cursor: pointer;
+  opacity: 0.6;
+}
+.vue-waterfall-easy-container .vue-waterfall-easy-scroll{
+  overflow-y:auto !important;
+}
+.vue-waterfall-easy-container .vue-waterfall-easy-scroll{
+  /* width: 1210px !important;
+  background: red !important; */
+}
+.vue-waterfall-easy-container .vue-waterfall-easy a{
+  /* padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem; */
+}
 .desc p{
   color:#5A5A5A !important;
 }

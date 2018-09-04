@@ -190,6 +190,7 @@ import Toggle from "./Toggle"
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    font-size: 14px;
   }
   .navBar a{
     font-family:"Source Sans Pro",sans-serif;

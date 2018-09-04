@@ -29,6 +29,7 @@
 import {mapActions,mapState} from "vuex"
 import utils from "@/utils"
 import ExhibitionForm from "@/admin/components/ExhibitionForm.vue"
+const {isMobile}  = utils
 var origin = '';
 export default {
   data(){
@@ -139,7 +140,9 @@ export default {
     ...mapState(["actionUrl","exhInfo","rules","headRule","exhLists"])
   },
   created(){
-    this.$store.dispatch("getExhs")
+    this.$store.dispatch("getExhs",{isMobile:isMobile()}).then(()=>{
+      console.log(this.exhLists)
+    })
 
   }
 }
