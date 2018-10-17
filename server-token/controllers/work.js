@@ -1,7 +1,6 @@
 const WorkModel = require('../models/work');
 const createWork = (req,res)=>{
-  const workInfo = req.body
-  console.log(workInfo)
+  const workInfo = req.bodyxz
   const instanceWork = new WorkModel(workInfo)
   instanceWork.save()
               .then(work=>{
@@ -25,6 +24,7 @@ const getWorks = (req,res)=>{
     WorkModel.find({},{works:0})
               // .skip(page*5)
               // .limit(5)
+              .sort({"_id":-1})
               .exec()
               .then(works=>{
                 res.send({

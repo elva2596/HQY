@@ -3,7 +3,6 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 html{
-  line-height: 24px;
   font-family: "微软雅黑",arial;
   color: #333;
   font-size: 10px;
@@ -77,7 +76,11 @@ ul{
   position: relative;
 
 }
-
+.main{
+  width: 1210px;
+  margin-left: auto;
+  margin-right: auto;
+}
 /**
  * 文本详情样式
  */
@@ -85,12 +88,12 @@ ul{
   text-indent: 2em;
   color:#5A5A5A !important;
   text-indent: 2em !important;;
-  line-height:3rem !important;;
-  font-size: 20px !important;
+  line-height:2.6rem !important;;
+  font-size: 16px !important;
   /* color:red; */
 }
 .swiper-item img{
-  
+
 }
 .vue-waterfall-easy-container .vue-waterfall-easy a.img-wraper > img:hover{
   cursor: pointer;
@@ -103,13 +106,10 @@ ul{
   /* width: 1210px !important;
   background: red !important; */
 }
-.vue-waterfall-easy-container .vue-waterfall-easy a{
-  /* padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1rem; */
-}
 .desc p{
   color:#5A5A5A !important;
+  font-size: 16px !important;
+  /* text-align: left; */
 }
 .ql-container.ql-snow{
   border:none !important;
@@ -138,37 +138,48 @@ ul{
 }
 .pra p{
   margin-bottom: 1rem;
+  line-height: 1.5em;
   /* font-size: 14px !important; */
 }
 
 
 .exh.item {
     position:relative;
-    line-height:1.4em;
     /* 3 times the line-height to show 3 lines */
-    max-height:7em;
-    overflow:hidden;
-}
-.exh.item::after {
 
 }
 .exh.item p {
   font-size: 16px;
   text-align: left;
+  line-height: 1.5em;
+  height: 4.5em;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+
+
 }
 .pra-exh p span{
   color:white !important;
 }
 @media screen and (max-width:480px){
+  .main{
+    width: 100%;
+  }
   .news-texts span,
   .exh.item p{
     font-size: 14px !important;
+  }
+  .main .article p span{
+    line-height: 1em !important;
   }
   .main .article p,
   .main .article p span,
   .content h4,
   .content p{
-    font-size: 16px !important;
+    font-size: 14px !important;
   }
   .news article p{
     font-size: 14px !important;
@@ -177,10 +188,14 @@ ul{
   .news article a:hover{
     opacity: 1;
   }
+  .text p{
+    line-height: 1.5em;
+  }
   /* 作品文字移动端样式 */
   .pra p{
-    margin-bottom: 0;
+    margin-bottom:.2rem;
     font-size: 14px !important;
+    line-height: 1.8em;
   }
   .exh.item::after {
       padding:0 1.2rem 1px 0;

@@ -36,14 +36,13 @@ export default {
   },
   async getWorks({commit},{isMobile,page}){
     let {data} = await getWorks(page)
-    console.log(data)
     let filterworks = data.data.map(item=>{
       item.imgObj = {
-       src:isMobile?item.coverUrl.mobilepictures.url:item.coverUrl.pcpictures.url,
+       src:item.coverUrl&&item.coverUrl.pcpictures.url,
        error: "http://abc.dailu.site/15e0e346278.jpg",
        loading: "http://abc.dailu.site/15e105b23e5.jpg"
      }
-     item.coverInfo = isMobile?item.coverUrl.mobilepictures:item.coverUrl.pcpictures
+     item.coverInfo = item.coverUrl&&item.coverUrl.pcpictures
 
       item.visible = false
       return item

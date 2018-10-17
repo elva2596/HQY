@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex"
 import mutations from "./Mutation"
 import actions from "./Action"
+import {configport} from "@/config"
 Vue.use(Vuex)
 function isLogin(){
   let token = window.localStorage.getItem("jwt");
@@ -29,7 +30,8 @@ const store = new Vuex.Store({
     pubLisits:[],
     textsLists:[],
     isCollapse:false,
-    actionUrl:"http://39.106.216.187:8088/api/admin/imgs",
+    // actionUrl:"http://39.106.216.187:8088/api/admin/imgs",
+    actionUrl:`http://39.106.216.187:8089/api/admin/imgs`,
     workInfo:{
       title_cn:"",
       title_en:"",

@@ -3,7 +3,7 @@
     <div class="content">
       <h3 class="tittle">{{textInfo.tittle}}</h3>
       <span>{{textInfo.authorInfo}}</span>
-      <article class="article" v-html="textInfo.content">
+      <article class="article text" v-html="textInfo.content">
 
       </article>
     </div>
@@ -79,7 +79,7 @@ export default {
   margin:3rem 0;
   color:#5A5A5A !important;
   text-indent: 2em;
-  line-height:3rem;
+  /* line-height:3rem; */
 }
 @media screen and (max-width:480px){
   .content .tittle{

@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="wrap">
       <vue-waterfall-easy
-        :imgsArr="worksArr"
+        :imgsArr="workInfo"
         :linkRange="'custom'"
         :maxCols="5"
          @click="onclick"
@@ -30,8 +30,10 @@
         </transition>
           <swiper :options="swiperOption" class="slide-container loop" >
             <swiper-slide class="item item2" v-for="(list,index) in imgsArrs" :key="list.id">
-              <div  @mouseover="imgMouseover(index)" @mouseout="imgmMouseout(index)" class="swiper-item" >
-                <img :src="list.src" alt="" @touchend="handletouch(index)">
+              <!-- <div  @mouseover="handletouch(index)" @mouseout="handletouch(index)" class="swiper-item" > -->
+              <div  class="swiper-item" >
+                <img :src="list.src" alt="" @touchend="handletouch(index)" @mouseover="handletouch(index)" @mouseout="handletouch(index)">
+                <!-- <img :src="list.src" alt="" @touchend="handletouch(index)"> -->
                 <transition name="slide-fade">
                 <VueScrollbar class="img-desc"  ref="Scrollbar" v-if="list.show&&list.text">
                   <div class="pra" v-html="list.text"></div>
@@ -71,10 +73,8 @@
         loopEleShow:true,
         index:1,
         swiperOption: {
-              // effect: 'fade',
               slidesPerView: 1,
               spaceBetween: 30,
-              // loop: true,
               pagination: {
                 el: '.swiper-pagination',
                 clickable: true
@@ -86,7 +86,6 @@
               on:{
                 slideChange:function (){
                   _this.index = this.activeIndex+1
-                  console.log(this.activeIndex)
                 }
               }
             },
@@ -95,38 +94,18 @@
     },
     computed:{
       ...mapState(["isEn","isloop"]),
-      worksArr(){
-        // const
-        if(this.isEn){
-          return this.workInfo.map(item=>({
-            id:item._id,
-            src:item.coverInfo.url,
-            time:item.create_time_en,
-            tittle:item.title_en,
-            show:item.show
-          }))
-        }else{
-          return this.workInfo.map(item=>({
-            id:item._id,
-            src:item.coverInfo.url,
-            time:item.create_time_cn,
-            tittle:item.title_cn,
-            show:item.show
-          }))
-        }
-      },
       imgsArrs(){
         if(this.isEn){
           return this.imgsArr.map(item=>({
             id:item._id,
-            src:item.imageInfo.url,
+            src:item.imageInfo&&item.imageInfo.url,
             text:item.desc_en,
             show:item.show
           }))
         }else{
           return this.imgsArr.map(item=>({
             id:item._id,
-            src:item.imageInfo.url,
+            src:item.imageInfo&&item.imageInfo.url,
             text:item.desc_cn,
             show:item.show
           }))
@@ -136,16 +115,20 @@
     methods:{
       getData() {
         const page = this.page
-      // In the real environment,the backend will return a new image array based on the parameter group.
-      // Here I simulate it with a stunned json file.
-      this.$store.dispatch("getWorks",{isMobile:isMobile(),page}).then(re=>{
-        if(re&&re.length>0){
-          this.workInfo = this.workInfo.concat(re.reverse())
-          this.page++
-        }
-
-      })
-    },
+        this.$store.dispatch("getWorks",{isMobile:isMobile(),page}).then(data=>{
+          if(data&&data.length===0){return }
+          data.forEach((item) => {
+            // item.show = isMobile();
+            item.show = true;
+            item.id = item._id;
+            item.src = item.coverInfo&&item.coverInfo.url;
+            item.time = this.isEn ? item.create_time_en:item.create_time_cn;
+            item.tittle = item.title_en
+          })
+          this.workInfo = this.workInfo.concat(data);
+          this.page++;
+        })
+      },
       toggleTo_cn(){
         this.$store.commit("ISLOCAL",false)
       },
@@ -189,9 +172,8 @@
           this.imgsArr = works.map(item=>({
             ...item,
             show:true,
-            imageInfo:isMobile()?item.imageUrl.mlunbo:item.imageUrl.pclunbo
+            imageInfo:isMobile()?item.imageUrl&&item.imageUrl.mlunbo:item.imageUrl&&item.imageUrl.pclunbo
           }))
-          // console.log(works)
         })
         this.$store.commit("CHANGE_LOOP")
       }
@@ -214,19 +196,7 @@
       }
     },
     created(){
-      const page = this.page
-      if(isMobile()){
-        this.worksArr.forEach(item=>{
-          item.show = true
-        })
-      }
-      this.$store.dispatch("getWorks",{isMobile:isMobile(),page}).then(re=>{
-        this.workInfo = re.reverse().map(item=>({
-          ...item,
-          show:false
-        }))
-        this.page++
-      })
+      this.getData()
     },
     mounted(){
       if(isMobile()){
@@ -237,227 +207,225 @@
 </script>
 
 <style lang="css" scoped>
-.wrap{
-  width: 100%;
-  position: absolute;
-  top:6rem;
-  bottom:0;
-}
-  p.some-info{
-    font-size: 14px;
-    padding:.6rem 0;
-    color:#000000;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
-    padding-right: 5rem;
-    padding-left: 5rem;
-  }
-.slide-fade-enter-active {
-  transition: all .5s ease ;
-}
-.slide-fade-leave-active {
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active 在低于 2.1.8 版本中 */ {
-  transform: translateY(16rem);
-  opacity: 0;
-}
-
-.slide-fade-close-enter-active {
-  transition: all .5s ease ;
-}
-.slide-fade-close-leave-active {
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-close-enter, .slide-fade-close-leave-to
-/* .slide-fade-leave-active 在低于 2.1.8 版本中 */ {
-  transform: translateY(-16rem);
-  opacity: 0;
-}
-.loop .item{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100%;
-  background-position:center;
-
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active 在低于版本 2.1.8 中 */ {
-  opacity: 0;
-}
-  .loop-container{
-    position: fixed;
-    background:black;
-    height:100%;
+  .wrap{
     width: 100%;
-    top:0;
+    position: absolute;
+    top:6rem;
     bottom:0;
-    left:0;
-    right:0;
-    z-index:99;
-
-  }
-  .loop{
-    height: 100%;
-    width: 100%;
-  }
-  .loop img{
-    display: block;
-    max-height: 100%;
-    cursor: pointer;
-    margin-top: 50vh;
-    transform: translateY(-50%);
-
-  }
-  .loop-container .img-desc{
-    position:absolute;
-    bottom:0;
-    left:0;
-    right:0;
-    max-height: 14rem;
-    background: black;
-    background:rgba(0,0,0,0.5);
-    z-index:999;
-    color:white;
-    font-size: 16px;
-    text-align: left;
-    overflow: hidden;
-  }
-  .pra{
-    /* height:14rem; */
-    /* min-height: 14rem; */
-    padding: 1rem;
-    line-height:1.4em;
-  }
-  .img-desc .pra p{
-    text-align: left;
-    color:white !important;
-  }
-
-  /**
-   * [轮播图中的切换按钮]
-   * @type {[type]}
-   */
-  .toggle{
-    position: absolute;
-    top:1rem;
-    left:2rem;
-    cursor: pointer;
-    z-index:999;
-    color:white;
-    font-size: 14px;
-  }
-
-  /**
-   * [右上角关闭按钮]
-   * @type {[type]}
-   */
-  .close{
-    position: absolute;
-    right:2rem;
-    top:1rem;
-    width: 2rem;
-    height: 2rem;
-    cursor: pointer;
-    z-index:999;
-  }
-  .close::before,
-  .close::after{
-    content: "";
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: blue;
-    position: absolute;
-    top:calc(50% - 1px);
-    transform: rotate(45deg);
-    background: white;
-    cursor: pointer;
-  }
-  .close::after{
-    transform: rotate(-45deg);
-  }
-
-  /**
-   * [轮播条目]
-   * @type {[type]}
-   */
-  .swiper-button-prev,
-  .swiper-button-next{
-    outline: none;
-    width: 2rem;
-    height:4px;
-    background:none;
-    transform: translateX(-6rem);
-  }
-  .swiper-button-prev{
-    transform: translateX(6rem);
-  }
-  .swiper-button-prev::before,
-  .swiper-button-next::before{
-    content: "";
-    display: block;
-    width: 1.4rem;
-    height:.2rem;
-    background: white;
-    transform: rotate(-30deg);
-    position:relative;
-    top:.4rem;
-  }
-  .swiper-button-prev::before{
-    transform: rotate(-150deg)
-  }
-  .swiper-button-prev::after,
-  .swiper-button-next::after{
-    content: "";
-    display: block;
-    width: 1.4rem;
-    height:.2rem;
-    background: white;
-    transform: rotate(30deg);
-    position:relative;
-    top:-.4rem;
-  }
-  .swiper-button-prev::after{
-    transform: rotate(150deg)
-  }
-  .swiper-item{
-    height:94%;
-    position:relative;
-  }
-
-
-  @media screen and (max-width:480px){
-    .loop-container .img-desc{
-
-    max-height: 10rem;
-
   }
     p.some-info{
-      padding-right: 3rem;
-      padding-left: 3rem;
+      font-size: 14px;
+      padding:.6rem 0;
+      color:#000000;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+      padding-right: 5rem;
+      padding-left: 5rem;
     }
-    .swiper-item{
+  .slide-fade-enter-active {
+    transition: all .5s ease ;
+  }
+  .slide-fade-leave-active {
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to{
+    transform: translateY(16rem);
+    opacity: 0;
+  }
+
+  .slide-fade-close-enter-active {
+    transition: all .5s ease ;
+  }
+  .slide-fade-close-leave-active {
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-close-enter, .slide-fade-close-leave-to{
+    transform: translateY(-16rem);
+    opacity: 0;
+  }
+  .loop .item{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100%;
+    background-position:center;
+
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active 在低于版本 2.1.8 中 */ {
+    opacity: 0;
+  }
+    .loop-container{
+      position: fixed;
+      background:black;
+      height:100%;
       width: 100%;
-      position:static;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      z-index:99;
+
+    }
+    .loop{
+      height: 100%;
+      width: 100%;
     }
     .loop img{
-      width: 100%;
+      display: block;
+      max-height: 100%;
+      cursor: pointer;
+      margin-top: 50vh;
+      transform: translateY(-50%);
+
     }
-    .swiper-button-prev,
-    .swiper-button-next{
-      display: none;
+    .loop-container .img-desc{
+      position:absolute;
+      bottom:-3%;
+      left:0;
+      right:0;
+      max-height: 14rem;
+      background: black;
+      background:rgba(0,0,0,0.5);
+      z-index:999;
+      color:white;
+      font-size: 16px;
+      text-align: left;
+      overflow: hidden;
+    }
+    .pra{
+      padding: 1rem;
+      line-height:1.4em;
+      padding-bottom: 3rem;
+    }
+    .img-desc .pra p{
+      text-align: left;
+      color:white !important;
+    }
+
+
+    /**
+     * [轮播图中的切换按钮]
+     * @type {[type]}
+     */
+    .toggle{
+      position: absolute;
+      top:1rem;
+      left:2rem;
+      cursor: pointer;
+      z-index:999;
+      color:white;
+      font-size: 14px;
+    }
+
+    /**
+     * [右上角关闭按钮]
+     * @type {[type]}
+     */
+    .close{
+      position: absolute;
+      right:2rem;
+      top:1rem;
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      z-index:999;
     }
     .close::before,
     .close::after{
-      width: 1.6rem;
-      right: -.6rem;
+      content: "";
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: blue;
+      position: absolute;
+      top:calc(50% - 1px);
+      transform: rotate(45deg);
+      background: white;
+      cursor: pointer;
     }
-  }
+    .close::after{
+      transform: rotate(-45deg);
+    }
+
+    /**
+     * [轮播条目]
+     * @type {[type]}
+     */
+    .swiper-button-prev,
+    .swiper-button-next{
+      outline: none;
+      width: 2rem;
+      height:4px;
+      background:none;
+      transform: translateX(-6rem);
+    }
+    .swiper-button-prev{
+      transform: translateX(6rem);
+    }
+    .swiper-button-prev::before,
+    .swiper-button-next::before{
+      content: "";
+      display: block;
+      width: 1.4rem;
+      height:.2rem;
+      background: white;
+      transform: rotate(-30deg);
+      position:relative;
+      top:.4rem;
+    }
+    .swiper-button-prev::before{
+      transform: rotate(-150deg)
+    }
+    .swiper-button-prev::after,
+    .swiper-button-next::after{
+      content: "";
+      display: block;
+      width: 1.4rem;
+      height:.2rem;
+      background: white;
+      transform: rotate(30deg);
+      position:relative;
+      top:-.4rem;
+    }
+    .swiper-button-prev::after{
+      transform: rotate(150deg)
+    }
+    .swiper-item{
+      height:94%;
+      position:relative;
+    }
+
+
+    @media screen and (max-width:480px){
+      .loop-container .img-desc{
+
+      max-height: 18rem;
+
+    }
+      p.some-info{
+        padding-right: 3rem;
+        padding-left: 3rem;
+      }
+      .swiper-item{
+        width: 100%;
+        position:static;
+      }
+      .loop img{
+        width: 100%;
+      }
+      .swiper-button-prev,
+      .swiper-button-next{
+        display: none;
+      }
+      .close::before,
+      .close::after{
+        width: 1.6rem;
+        right: -.6rem;
+      }
+    }
 </style>

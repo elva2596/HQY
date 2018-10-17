@@ -15,8 +15,11 @@
                 <div class="nav-head">
                   <!--  中英文切换-->
                   <div class="toggle index-toggle">
-                    <a class="cn link" @click="toggleTo_cn" :class="{isEn}">曹雨</a>
-                    <a class="en link" @click="toggleTo_en" :class="{isEn:!isEn}">CAOYU</a>
+                    <a class="cn link" @click="toggleTo_cn" :class="{isEn}">胡庆雁</a>
+                    <!-- <a class="cn link" @click="toggleTo_cn" :class="{isEn}">曹雨</a> -->
+                    <span class="cn_link"></span>
+                    <a class="en link" @click="toggleTo_en" :class="{isEn:!isEn}">HUQINGYAN</a>
+                    <!-- <a class="en link" @click="toggleTo_en" :class="{isEn:!isEn}">CAOYU</a> -->
                   </div>
                   <!-- <header>
                     <router-link to="/">{{author}}</router-link>
@@ -38,11 +41,13 @@
 </template>
 
 <script>
+import {author} from "@/config"
 import { mapState } from "vuex"
 import HeadNav from "@/front/components/head"
 export default {
   data(){
     return {
+      author,
       navArr:[
         {message:"主页",path:""},
         {message:"新闻",path:"news"},
@@ -117,6 +122,9 @@ export default {
   height: 100%;
   position: relative;
 }
+.main{
+  width: 100%;
+}
 .isloop{
   overflow: hidden;
 }
@@ -147,10 +155,30 @@ head组件中的css值
 }
 .hamburger-button{
   width: 2rem;
-  height: 2rem;
+  /* height: 2rem; */
   /* background: red; */
 }
+
+
 .head .link {
-  font-size: 14px;
+  font-size: 16px;
+  /* background: red; */
+}
+.cn_link {
+  content:' ';
+  display: inline-block;
+  /* margin-left: 6px; */
+  /* margin-top: 2px; */
+  /* transform: translateY(1px); */
+  width: 2px;
+  height: 12px;
+  background: white !important;
+}
+
+@media screen and (max-width:480px){
+  .head .link {
+    font-size: 14px;
+    /* background: red; */
+  }
 }
 </style>

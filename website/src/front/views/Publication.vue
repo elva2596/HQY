@@ -80,8 +80,8 @@ export default {
   top:14rem;
   width: 100%;
   padding: 0 3rem;
-  font-size: 24px;
-  font-family: "PingFangSC";
+  font-size: 18px;
+  /* font-family: "PingFangSC"; */
 }
 .info{
   text-align:center;
@@ -111,15 +111,16 @@ export default {
 }
 .time{
   color:#5A5A5A;
-  font-size: 20px;
+  font-size: 16px;
 }
 .desc{
-  line-height: 3.3rem;
+  line-height:1.5em;
+  font-size: 16px !important;
   color:#5A5A5A;
 }
 @media screen and (max-width:480px){
   .content{
-    padding:1rem;
+    padding:2rem;
     font-size: 16px;
     top:12rem;
   }

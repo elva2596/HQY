@@ -29,4 +29,24 @@ const filterUrl = (isM,param) => {
       return uploadUrl
   }
 }
+let author = {};
+let configport  = 8089;
+const port  = window.location.port;
+if(port!=="80"){
+  author = {
+    cn:"曹雨",
+    en:"CAOYU"
+  }
+  configport = 8088
+
+}else{
+  author = {
+    cn:"胡庆雁",
+    en:"HUQINGYAN"
+  }
+  configport = 8089;
+}
+// console.log()
+// console.log(typeof port)
 export default filterUrl
+export {author,configport}

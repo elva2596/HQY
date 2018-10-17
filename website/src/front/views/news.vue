@@ -73,7 +73,7 @@ export default {
   }
   .content h3{
     margin-bottom: 3rem;
-    font-size: 20px;
+    font-size: 18px;
   }
   .news li{
     margin-bottom: 6rem;

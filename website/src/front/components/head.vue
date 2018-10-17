@@ -43,6 +43,7 @@
 </template>
 
 <script>
+
 import Toggle from "./Toggle"
 /**
  * [展示型组件]
@@ -120,11 +121,14 @@ import Toggle from "./Toggle"
     display: block;
     width: 100%;
     height: .3rem;
-    margin: 0 0 .3rem;
+    /* margin: 0 0 .3rem; */
     /*三个值top auto bottom*/
     transition: all .2s ease-in-out;
     border-radius: .5rem;
-    background:#818181;
+    background:rgb(90, 90, 90);
+  }
+  .hamburger .icon{
+    margin:.3rem 0;
   }
   .hamburger.active .icon {
     transform:scale(0);
@@ -144,7 +148,7 @@ import Toggle from "./Toggle"
     font-size: 18px;
     transition: .3s;
 
-    color:#818181;
+    color:rgb(90, 90, 90);
     z-index:99;
   }
   .nav-head{
@@ -172,11 +176,11 @@ import Toggle from "./Toggle"
 
   .button{
     width: 2rem;
-    padding-top: 0.4rem;
+    /* padding-top: 0.4rem; */
   }
   .hamburger-button{
     width: 2rem;
-    height: 2rem;
+    /* height: 2rem; */
     /* background: red; */
   }
   .navBar{
@@ -190,7 +194,7 @@ import Toggle from "./Toggle"
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    font-size: 14px;
+    font-size: 16px;
   }
   .navBar a{
     font-family:"Source Sans Pro",sans-serif;
@@ -221,6 +225,9 @@ import Toggle from "./Toggle"
     .button{
       width: 1.8rem;
       padding-top: 0.2rem;
+    }
+    .navBar{
+      font-size: 14px;
     }
   }
 </style>
